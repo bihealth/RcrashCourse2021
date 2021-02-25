@@ -1,0 +1,323 @@
+---
+title: "R crash course / 04"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation: default
+---
+
+```{r,echo=FALSE}
+## Set default options for the knitr RMD processing
+knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=FALSE,autodep=TRUE, results="hide")
+library(readxl)
+library(beeswarm)
+library(tidyr)
+```
+
+# Creating the LABRES data set
+
+## Reading and column selection
+
+```{r,eval=TRUE}
+targets <- read_xlsx("Datasets/expression_data_vaccination_example.xlsx", 
+  sheet=1)
+targets <- targets[ , c("USUBJID", "Timepoint", "ARM", "SEX", "AGE") ]
+lab <- read.csv("Datasets/labresults_full.csv")
+lab <- lab[ , 
+  c("USUBJID", "LBTEST", "LBTESTCD", "LBORRES", "Timepoint") ]
+
+## remove the "SCREEN" time point
+lab <- lab[ lab$Timepoint != "SCREEN", ]
+
+## not what we want!
+merged <- merge(targets, lab, by="USUBJID")
+table(merged$Timepoint.x, merged$Timepoint.y)
+```
+
+## Reading and column selection
+
+We need to choose: do we want to keep all measurements and just fill out
+meta-information from `targets`, or do we want only to keep the time points
+present in the expression data set?
+
+```{r,eval=TRUE}
+## to keep all time points
+targets2 <- targets[ , c("USUBJID", "ARM", "SEX", "AGE") ]
+
+## remove duplicated lines
+targets2 <- targets2[ !duplicated(targets2$USUBJID), ] 
+
+## merge
+merged_full <- merge(targets2, lab, by="USUBJID")
+
+## this one drops all timepoints not present in "targets"
+merged <- merge(targets, lab, by=c("USUBJID", "Timepoint"))
+```
+
+## Converting to wide format
+
+```{r}
+## this does not work as expected, because "LBTESTCD" 
+## and "LBTEST" contain the same information – we cannot 
+## store both in the column names
+
+labwide <- spread(merged, key="LBTESTCD", value="LBORRES")
+```
+
+```{r eval=TRUE}
+## this works
+labwide <- spread(merged[ , colnames(merged) != "LBTEST"], key="LBTESTCD", value="LBORRES")
+```
+
+## Cleaning up
+
+```{r,eval=TRUE}
+sapply(labwide, class) # all measurements are character!
+startpos <- which(colnames(labwide) == "ACA")
+labwide2 <- data.frame(labwide[,1:(startpos-1)], data.matrix(labwide[,startpos:ncol(labwide)]))
+which(is.na(labwide2), arr.ind=T)[,2]
+
+## impute low measurements
+labwide[,14] <- gsub("<", "", labwide[,14])
+labwide[,16] <- gsub("<", "", labwide[,16])
+
+## these column is all NA
+labwide <- labwide[,-17]
+labwide <- data.frame(labwide[,1:5], data.matrix(labwide[,6:35]))
+```
+
+
+# Simple statistics with R
+
+## Descriptive statistics
+
+```{r}
+mean(labwide$NEUT)
+sd(labwide$NEUT)
+
+tapply(labwide$NEUT, labwide$ARM, mean)
+tapply(labwide$NEUT, labwide$Timepoint, mean)
+tapply(labwide$NEUT, 
+  paste(labwide$ARM, labwide$Timepoint, sep="."), mean)
+```
+
+## Simple t.test
+
+```{r,eval=TRUE}
+fluad <- labwide$ARM == "FLUAD"
+agrippal <- labwide$ARM == "AGRIPPAL"
+
+d0 <- labwide$Timepoint == "D0"
+d1 <- labwide$Timepoint == "D1"
+```
+
+## Simple t.test
+
+Paired or not paired?
+
+```{r,eval=TRUE}
+tst <- "NEUT" # lymphocyte count
+x <- labwide[ ,tst]
+t.test(x[d0 & fluad], x[d1 & fluad])
+t.test(x[d0 & fluad], x[d1 & fluad], paired=TRUE)
+```
+
+## Caveat: paired data
+
+We must make sure that all the data points are paired!
+
+## Excercise 4.1
+
+ * Run t-test for CRP (C-reactive protein), LYM (lymphocytes)
+ * `wilcox.test()` is the U test / Mann Whitney test / Wilcoxon test. Try it
+
+
+## Basic plots (demonstration)
+
+We have two main factors: ARM (the group) and Timepoint (before or 1 day
+after vaccination). Therefore, we should plot accordingly.
+
+```{r}
+armcd <- gsub("(.).*", "\\1", labwide$ARM)
+group <- paste(armcd, labwide$Timepoint, sep=".")
+
+x <- labwide[ , tst]
+boxplot(x ~ group)
+```
+
+## Basic plots (demonstration)
+
+```{r,eval=TRUE,echo=FALSE}
+armcd <- gsub("(.).*", "\\1", labwide$ARM)
+group <- paste(armcd, labwide$Timepoint, sep=".")
+
+x <- labwide[ , tst]
+boxplot(x ~ group)
+```
+
+## Basic plots (demonstration)
+
+```{r,eval=TRUE}
+beeswarm(x ~ group)
+```
+
+## Excercise 4.2
+
+ * Create box plots for selected variables
+
+## Plotting principles
+
+ * plotting parameters
+ * `xlab`, `ylab`, `main`
+
+## Plot for pairwise data
+
+```{r,eval=FALSE}
+x <- as.numeric(factor(group))
+y <- labwide[ , tst]
+
+plot(x, y, xaxt="n", bty="n", pch=19, col="grey",
+  xlab="Vaccine", ylab="Lymphocyte count")
+segments(x[d0], y[d0], x[d1], y[d1])
+axis(1, at=2*(1:3)-.5, labels=levels(factor(labwide$ARM)))
+```
+
+## Plot for pairwise data
+
+```{r,eval=TRUE,echo=FALSE}
+x <- as.numeric(factor(group))
+y <- labwide[ , tst]
+
+plot(x, y, xaxt="n", bty="n", pch=19, col="grey")
+segments(x[d0], y[d0], x[d1], y[d1])
+axis(1, at=2*(1:3)-.5, labels=levels(factor(labwide$ARM)))
+```
+
+
+
+# Multivariate data
+
+## PCA
+
+ * An example of a complex object type
+ * `pch`, `bty`, `lty`
+
+```{r}
+data(iris)
+pca <- prcomp(iris[,1:4], scale.=TRUE)
+plot(pca$x[,1], pca$x[,2], col=factor(iris$Species),
+  pch=19, bty="n")
+legend("topright", levels(factor(iris$Species)),
+  pch=19, col=1:3, bty="n")
+```
+
+## PCA (cont.)
+
+```{r,eval=TRUE,echo=FALSE}
+data(iris)
+pca <- prcomp(iris[,1:4], scale.=TRUE)
+plot(pca$x[,1], pca$x[,2], col=factor(iris$Species),
+  pch=19, bty="n")
+legend("topright", levels(factor(iris$Species)),
+  pch=19, col=1:3, bty="n")
+```
+
+
+## Farbenlehre
+ 
+ * numeric values (simple colors)
+ * color names: see http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+ * (R, G, B) color specification
+    * Hexadecimal notation
+    * Basic colors:
+        * `#FF0000` (red)
+        * `#00FF00` (green)
+        * `#0000FF` (blue)
+  * friendly color palettes: `RColorBrewer` package
+
+
+## RColorBrewer
+
+```{r}
+library(RColorBrewer)
+display.brewer.all()
+pal <- brewer.pal(n=3, name="Dark2")
+
+cols <- pal[ factor(iris$Species) ]
+plot(pca$x[,1], pca$x[,2], col=cols,
+  pch=19, bty="n")
+legend("topright", levels(factor(iris$Species)),
+  pch=19, col=pal, bty="n")
+```
+
+
+## RColorBrewer (cont.)
+
+```{r,eval=TRUE,echo=FALSE}
+library(RColorBrewer)
+pal <- brewer.pal(n=3, name="Dark2")
+
+cols <- pal[ factor(iris$Species) ]
+plot(pca$x[,1], pca$x[,2], col=cols,
+  pch=19, bty="n")
+legend("topright", levels(factor(iris$Species)),
+  pch=19, col=pal, bty="n")
+```
+
+
+## Putting two plots on one graphics
+
+```{r}
+par(mfrow=c(1,2))
+plot(pca$x[,1], pca$x[,2], col=cols, pch=19, bty="n")
+plot(pca$x[,3], pca$x[,4], col=cols, pch=19, bty="n")
+legend("topright", levels(factor(iris$Species)),
+  pch=19, col=pal, bty="n")
+```
+
+## Putting two plots on one graphics (cont.)
+
+```{r,eval=TRUE,echo=FALSE,fig.width=8,fig.height=4}
+par(mfrow=c(1,2))
+plot(pca$x[,1], pca$x[,2], col=cols, pch=19, bty="n")
+plot(pca$x[,3], pca$x[,4], col=cols, pch=19, bty="n")
+legend("topright", levels(factor(iris$Species)),
+  pch=19, col=pal, bty="n")
+```
+
+## Excercise 
+
+ * Compute and display a PCA for the labwide data set. Which components
+   appear to be related to the different sample groups? 
+
+## Playing with PCA: Gene expression
+
+(demonstration)
+
+## The mtcars data set – correlations & co.
+
+
+```{r}
+data(mtcars)
+pairs(mtcars[,1:5])
+cor(mtcars$hp, mtcars$mpg)
+cor.test(mtcars$hp, mtcars$mpg)
+cor.test(mtcars$hp, mtcars$mpg, method="spearman")
+```
+
+## mtcars and PCA
+
+```{r}
+pca <- prcomp(mtcars, scale.=TRUE)
+cor(pca$x[,1], mtcars[,1])
+```
+
+
+## Linear regression
+
+```{r}
+mod <- lm(mpg ~ hp + disp)
+summary(mod)
+```
+
+

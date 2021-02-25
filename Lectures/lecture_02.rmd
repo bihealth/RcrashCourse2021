@@ -1,0 +1,342 @@
+---
+title: "R crash course / 02"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation: default
+---
+
+```{r,echo=FALSE}
+## Set default options for the knitr RMD processing
+knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=TRUE,autodep=TRUE, results="hide")
+```
+
+## Data matrices
+
+Much like vectors, matrices can only hold one data type (e.g. only numeric
+or only character).
+
+```{r}
+m <- matrix(1:18, ncol=3, nrow=6)
+# compare with
+m <- matrix(1:18, ncol=3, nrow=6, byrow=TRUE)
+dim(m)
+ncol(m)
+nrow(m)
+```
+
+## Accessing columns, rows and element
+
+`matrix[row, column]`
+
+So, for example:
+
+```{r}
+m[1, ] # vector which is the first row
+m[, 2] # vector which is the first column
+m[3, 1] # first element of the third row
+```
+
+## Row and column names
+
+We can name rows and columns of a matrix and use the names to access the
+rows and columns:
+
+```{r}
+colnames(m) <- letters[1:ncol(m)]
+rownames(m) <- LETTERS[1:nrow(m)]
+
+m["A", "b"]
+m["B", ] # etc.
+```
+
+## Remember
+
+ * If you select a single column or a single row, you will get a vector
+ * If you select more than one row or column, you will get a (smaller) matrix
+ * If you select more rows or columns than are present, you will get a
+   "subscript out of bonds" error
+
+## Demonstration
+
+
+## Data frames
+
+Data frames are a bit like matrices, but every column can store different
+type of data. In this, they are more like lists (which they in fact are).
+
+```{r}
+names <- c("January", "Bill")
+lastn <- c("Weiner", "Gates")
+age   <- c(1001, 64)
+
+d <- data.frame(names=names, last_names=lastn, age=age)
+class(d)
+class(d[,1])
+class(d[,3])
+```
+
+## Accessing elements in data frames
+
+You can access the data frame elements much like the elements of a matrix.
+
+However, since data frames are lists, the list operator (`$`) also works:
+
+```{r}
+d$names # same as d[,1] or d[, "names"]
+d$lastn
+d$lastn[1]
+```
+
+However, note that when you select a row, you will get a data frame, not a
+vector. This is because each of the column can be of different type, and
+vectors can hold only one type of data.
+
+## Matrices vs data frames
+
+ Caveats:
+
+  * data frames sometimes turn strings to factors (more on that later), which may have really
+    disastrous consequences, use `stringsAsFactors=FALSE`
+  * small typos can turn a numeric vector into a string
+  * factors are dangerous to work with, use them cautiously
+
+  Gory details: matrices are a basic data type. Data frames are a list.
+
+
+## Excercise 2.1
+
+ * Create a 5x3 matrix with random numbers. Use `matrix` and `rnorm`.
+ * Turn the matrix into a data frame. Use `as.data.frame` for that.
+ * Add column and row names.
+ * Add a column. Each value in the column should be "A" (a string). Use the
+   `rep` function for that.
+ * Add a column with numbers 1 to 5. Use the `seq` function for that.
+
+## Using rep
+
+`rep()` is used to replicate vectors.
+
+```{r}
+rep(c("A", "B"), 5) 
+# result:
+#  [1] "A" "B" "A" "B" "A" "B" "A" "B" "A" "B"
+
+rep(c("A", "B"), each=5)
+# result
+# [1] "A" "A" "A" "A" "A" "B" "B" "B" "B" "B"
+```
+
+# Reading and writing data
+
+## Reading data
+
+Main data types you will encounter:
+
+---------------------------- ------------------------------- --------------------------
+Data type                    Function                        Notes
+---------------------------- ------------------------------- --------------------------
+TSV / TAB separated values   `read.table()`                  Tab is `\t`.
+                                                             A very general and 
+                                                             customizable function
+
+CSV / comma separated        `read.csv()`                    a wrapper around
+                                                             `read.table()`
+
+XLS (old Excel)              `read_xls()`                    Just don't use it.
+                                                             From the
+                                                             `readxl`
+                                                             package.
+
+XLSX (new Excel)             `read_xlsx()`                   From the `readxl` package.
+                                                             You need to
+                                                             provide the
+                                                             sheet number
+                                                             you wish to
+                                                             read. 
+                                                             Note: returns a tibble,
+                                                             not a data frame! 
+---------------------------- ------------------------------- --------------------------
+
+
+
+## Examples (demonstration)
+
+ * `header=TRUE`
+ * `colnames`
+ * `rownames`
+ * `sep=","`
+ * `stringsAsFactors`
+ * `quote`
+ * `comment.char`
+
+## Tibbles / readxl
+
+tibbles belong to the tidyverse. They are nice to work with and very
+useful, but we will stick to data frames in this course. Therefore, do
+
+```{r}
+mydataframe <- as.data.frame(read_xlsx("file.xlsx"))
+```
+
+One crucial difference between tibble and data frame is that `tibble[ , 1 ]` 
+returns a tibble, while `dataframe[ , 1]` returns a vector. The second
+crucial difference is that it does not support row names (on purpose!).
+
+## Cleaning up data
+
+`unique` returns the unique values in a vector. Use it to check the
+correctness of the columns.
+
+Use `class()` to make sure that the columns are what you think they are.
+
+Use `summary()` to gain an overview of the data.
+
+Convert with `factor` when necessary (and only then).
+
+## Substitutions
+
+```{r}
+group <- c("Control", " control", "control ", "Control   ")
+group <- gsub("Control", "control", group)
+group <- gsub(" ", "", group)
+```
+
+## Regular expressions
+
+```{r}
+group <- c("Control", " control", "control ", "Control   ")
+
+# substitute at the end of the string
+gsub(" $", "", group)
+# at the beginning
+gsub("^ ", "", group)
+
+# any number of occurences
+gsub(" *", "", group)
+```
+
+## Regular expression cont.
+
+```{r}
+foo <- c("a1_123", "a1_231", "a2_17", "b2_23", "c2_889")
+
+# substitute digits only
+gsub("[0-9]*", "", foo)
+
+# substitute letters only
+gsub("[a-z]*", "", foo)
+
+# substitute everything after "_"
+gsub("_.*", "", foo)
+```
+
+## Writing data
+
+Main data types you will encounter:
+
+---------------------------- ------------------------------- --------------------------
+Data type                    Function                        Notes
+---------------------------- ------------------------------- --------------------------
+TSV / TAB separated values   `write.table()`                 Tab is `\t`.
+                                                             A very general and 
+                                                             customizable function
+                                                             Warning:
+                                                             column names 
+
+CSV / comma separated        `write.csv()`                    a wrapper around
+                                                             `read.table()`
+
+XLS (old Excel)                                              Just don't use it. No, 
+                                                             seriously, don't.
+
+XLSX (new Excel)             `write_xlsx()`                  From the `writexl` 
+                                                             package.
+                                                             Warning:
+                                                             row names
+                                                             omitted!
+---------------------------- ------------------------------- --------------------------
+
+
+## Demonstration
+
+
+## Excercise 2.2
+
+Read, inspect and correct (if reasonable) the following files:
+
+ * `cars.xlsx`
+ * `iris.csv`
+ * `expression_data_vaccination_example.xlsx` (large!)
+
+The function `readxl_example("deaths.xls")` returns a file name. Read this
+file. How can you omit the lines at the top and at the bottom of the file?
+(hint: `?read_xls`). How can you force the date columns to be interpreted
+as dates and not numbers?
+
+
+## Wide and Long format (demonstration)
+
+
+## Converting from wide to long:
+
+```{r}
+wide <- read.table(header=TRUE, text='
+ subject sex control cond1 cond2
+       1   M     7.9  12.3  10.7
+       2   F     6.3  10.6  11.1
+       3   F     9.5  13.1  13.8
+       4   M    11.5  13.4  12.9
+')
+tidyr::gather(wide, key="condition", 
+             value="measurement",  control:cond2)
+```
+
+`tidyr::gather` means we are accessing the `gather()` function from the
+`tidyr` package without having to call `library(tidyr)` first.
+
+## Converting from long to wide
+
+```{r}
+long <- read.table(header=TRUE, text='
+ subject  sampleID sex condition measurement
+       1  ID000001 M   control         7.9
+       1  ID000002 M     cond1        12.3
+       1  ID000003 M     cond2        10.7
+       2  ID000004 F   control         6.3
+       2  ID000005 F     cond1        10.6
+       2  ID000006 F     cond2        11.1
+       3  ID000007 F   control         9.5
+       3  ID000008 F     cond1        13.1
+       3  ID000009 F     cond2        13.8
+')
+```
+
+## Converting from long to wide
+
+```{r}
+## not what we wanted!!!
+tidyr::spread(long, key="condition", value="measurement")
+
+## Instead: 
+long <- long[ , c("subject", "condition", "measurement") ]
+tidyr::spread(long, key="condition", value="measurement")
+```
+
+## Excercise 2.3
+
+Convert the following files to long format:
+
+ * `iris.csv`
+ * `mtcars_wide.csv`
+ * `labresults_wide.csv`
+ * `cars.xlsx` (tricky!)
+
+## Excercise 2.4
+
+For the first sheet ("targets") from the file
+`expression_data_vaccination_example.xlsx`, create a new table. For each
+Patient ID there should be one row. The row should contain a column for
+each day (D0, D1 etc.) containing the sample IDs collected on that day.
+
+

@@ -1,0 +1,407 @@
+---
+title: "R crash course / 05"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  ioslides_presentation: default
+---
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+## Set default options for the knitr RMD processing
+knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=TRUE,autodep=TRUE, results="hide")
+require(readxl)
+require(beeswarm)
+require(tidyr)
+require(vioplot)
+require(RColorBrewer)
+```
+
+# SD, SEM and different plot types
+
+## SD vs SEM
+
+
+```{r,eval=TRUE}
+
+## generate mock data sets with different sample sizes
+ns <- c(10, 50, 100, 500)
+data <- rnorm(sum(ns))
+## repeat "a" 10 times, "b" 50 times, etc.
+labs <- unlist(lapply(1:length(ns), 
+  function(i) rep(letters[i], ns[i])))
+
+## calculate means, SD and SEM
+means <- tapply(data, labs, mean)
+sds <- tapply(data, labs, sd)
+ses <- sds/sqrt(ns)
+```
+
+
+## SD vs SEM (cont.)
+
+```{r,echo=FALSE,eval=TRUE,fig.width=7,fig.height=5}
+x <- (1:length(ns))-.3 # for plotting
+
+plot(NULL, xlim=c(.5, length(ns) + .5), ylim=c(-5, 5), bty="n", xlab="", ylab="")
+## means
+abline(h=0, col="grey")
+abline(h=c(-1,1), col="grey", lty=2)
+segments(x, tapply(data, labs, mean), x+.6, tapply(data, labs, mean), lwd=2)
+
+rect(x + .1, means-sds, x + .5, means + sds, col="#00999933")
+rect(x, means-ses, x + .6, means + ses, col="#00FFFF33")
+beeswarm(data ~ labs, pch=19, col="#33333333", add=TRUE)
+```
+
+
+## Function for plotting error bars
+
+```{r eval=TRUE}
+ebar <- function(x, y, sd, width=1, ...) {
+  w <- width/2
+
+  segments(x, y, x, y + sd, ...)
+  segments(x - w, y + sd, x + w, y + sd, ...)
+}
+```
+
+
+## SD vs SEM (cont.)
+
+
+```{r eval=TRUE,echo=FALSE}
+set.seed(121234)
+data <- c(rnorm(100) + 1.6, rnorm(100) + 2)
+labs <- rep(letters[1:2], each=100)
+```
+
+p < `r format.pval(t.test(data ~ labs)$p.value, digits=2)`
+
+```{r eval=TRUE,echo=FALSE,fig.width=3,fig.height=5}
+## calculate the means and SEMs
+means <- tapply(data, labs, mean)
+sems <- tapply(data, labs, sd)/sqrt(100)
+bp <- barplot(means, ylim=c(0, 2.5), space=.9)
+ebar(bp[,1], means, sems, width=.6)
+```
+
+## SD vs SEM (cont.)
+
+```{r eval=TRUE,echo=FALSE,fig.width=8,fig.height=5}
+
+layout(t(c(1,2)), widths=c(1,4))
+## calculate the means and SEMs
+bp <- barplot(means, ylim=c(0, 2.5), space=.1)
+ebar(bp[,1], means, sems, width=.6)
+bp <- barplot(means, ylim=c(0, 2.5), space=.6)
+ebar(bp[,1], means, sems, width=.3)
+```
+
+
+## SD vs SEM (cont.)
+
+
+```{r eval=TRUE,echo=FALSE,fig.width=8,fig.height=5}
+par(mfrow=c(1,2))
+bp <- barplot(means, ylim=c(0, 2.5), space=.9)
+ebar(bp[,1], means, sems, width=.5)
+boxplot(data ~ labs, frame=FALSE, notch=TRUE)
+```
+
+
+## SD vs SEM (cont.)
+
+```{r eval=TRUE,echo=FALSE,fig.width=8,fig.height=5}
+par(mfrow=c(1,2))
+bp <- barplot(means, ylim=c(0, 2.5), space=.9)
+ebar(bp[,1], means, sems, width=.5)
+beeswarm(data ~ labs, bty="n")
+```
+
+## SD vs SEM (cont.)
+
+```{r eval=TRUE,echo=FALSE,fig.width=8,fig.height=5}
+par(mfrow=c(1,2))
+bp <- barplot(means, ylim=c(0, 2.5), space=.9)
+ebar(bp[,1], means, sems, width=.5)
+vioplot(data ~ labs, col="#33993333", frame.plot=F)
+```
+
+# Linear regression
+
+## Calculating linear regression
+
+```{r,eval=TRUE}
+mod1 <- lm(mpg ~ hp, data=mtcars)
+summary(mod1)
+mod2 <- lm(mpg ~ hp + disp, data=mtcars)
+summary(mod2)
+```
+
+## Plotting linear regression: basic
+
+Plotting mod2 would be less trivial, since we only show one predictor
+  variable on the plot, but the model depends on two of them.
+
+```{r eval=TRUE,fig.height=3,fig.width=4}
+plot(mtcars$hp, mtcars$mpg)
+abline(mod1)
+```
+
+
+## Comparing models 
+
+```{r,eval=TRUE}
+mod1 <- lm(mpg ~ hp, data=mtcars)
+summary(mod1)
+mod2 <- lm(mpg ~ hp + disp, data=mtcars)
+summary(mod2)
+anova(mod1, mod2)
+mod.l <- lm(mpg ~ log(hp), data=mtcars)
+BIC(mod1, mod2, mod.l)
+```
+
+
+## Plotting linear regression
+
+Confidence intervals tell us how well we have estimated the relationship.
+Prediction intervals tell us how well we can predict new data points using
+this model.
+
+```{r}
+mod <- lm(mpg ~ log(hp), data=mtcars)
+xnew <- 50:350
+plot(mtcars$hp, mtcars$mpg, log="x", xlab="HP",
+  ylab="MPG", bty="n")
+ci <- predict(mod, newdata=data.frame(hp=xnew), interval="conf")
+lines(xnew, ci[,1], lwd=2) # fit
+lines(xnew, ci[,2]) # lower CI
+lines(xnew, ci[,3]) # upper CI
+pr <- predict(mod, newdata=data.frame(hp=xnew), interval="pred")
+lines(xnew, pr[,2], lty=2) # lower prediction
+lines(xnew, pr[,3], lty=2) # upper prediction
+```
+
+
+## Plotting linear regression (cont.)
+
+```{r,eval=TRUE,echo=FALSE,fig.width=6,fig.height=5}
+mod <- lm(mpg ~ log(hp), data=mtcars)
+xnew <- 50:350
+plot(mtcars$hp, mtcars$mpg, log="x", xlab="HP",
+  ylab="MPG", bty="n")
+ci <- predict(mod, newdata=data.frame(hp=xnew), interval="conf")
+lines(xnew, ci[,1], lwd=2) # fit
+lines(xnew, ci[,2]) # lower CI
+lines(xnew, ci[,3]) # upper CI
+pr <- predict(mod, newdata=data.frame(hp=xnew), interval="pred")
+lines(xnew, pr[,2], lty=2) # lower prediction
+lines(xnew, pr[,3], lty=2) # upper prediction
+```
+
+
+## Plotting linear regression cont.
+
+```{r}
+plot(NULL, xlim=c(50,350), ylim=c(5,45), log="x", xlab="HP",
+  ylab="MPG", bty="n")
+x2 <- c(xnew, rev(xnew))
+polygon(x2, c(pr[,2], rev(pr[,3])), col="#FF330033", border=NA)
+polygon(x2, c(ci[,2], rev(ci[,3])), col="#FF330033", border=NA)
+lines(xnew, ci[,1], col="#FF3300", lwd=2) # fit
+points(mtcars$hp, mtcars$mpg, pch=19, cex=1.3, col="#99110033")
+```
+
+
+## Plotting linear regression cont.
+
+```{r,echo=FALSE,eval=TRUE,fig.width=7,fig.height=5}
+plot(NULL, xlim=c(50,350), ylim=c(5,45), log="x", xlab="HP",
+  ylab="MPG", bty="n")
+x2 <- c(xnew, rev(xnew))
+polygon(x2, c(pr[,2], rev(pr[,3])), col="#FF330033", border=NA)
+polygon(x2, c(ci[,2], rev(ci[,3])), col="#FF330033", border=NA)
+lines(xnew, ci[,1], col="#FF3300", lwd=2) # fit
+points(mtcars$hp, mtcars$mpg, pch=19, cex=1.3, col="#991100")
+```
+
+# FC-FC plots, Disco
+
+## Plotting fold change vs fold change
+
+A good way to compare results of two analyses is to plot the log2 fold
+changes vs each other.
+
+```{r eval=TRUE}
+res <- read.csv("Datasets/transcriptomics_results.csv")
+```
+
+##
+
+```{r eval=TRUE,fig.width=5,fig.height=5}
+plot(res$logFC.F.D1, res$logFC.F.D3, pch=19, col="#33333333", bty="n", 
+  xlab="Fold change on D1 vs D0", ylab="Fold change on D3 vs D0")
+abline(h=0)
+abline(v=0)
+```
+
+
+## Disco score
+
+```{r eval=TRUE}
+library(disco)
+disco <- list(
+  genes=res$GeneName,
+  lfc=res[ , c("logFC.F.D1", "logFC.F.D3")],
+  pval=res[ , c("qval.F.D1", "qval.F.D3")])
+disco$ds <- disco.score(disco)
+plotDisco(disco, disco$ds)
+```
+
+## Disco score 2
+
+```{r eval=FALSE}
+disco2 <- data.frame(disco$lfc, ds=disco$ds)
+disco2 <- disco2[ order(abs(disco2$ds)), ]
+pal <- colorRampPalette(colors=c("blue", "lightgrey", "red"))(17)
+pal <- paste0(pal, "66")
+col <- tagcloud::smoothPalette(disco2$ds, pal=pal, min=-3, max=3)
+plot(disco2[,1], disco2[,2], pch=19, bty="n", 
+  xlab="Fold change on D1 vs D0", ylab="Fold change on D3 vs D0", col=col)
+abline(h=0, col="grey")
+abline(v=0, col="grey")
+```
+
+##
+
+```{r eval=TRUE,echo=FALSE,fig.width=8,fig.height=6}
+disco2 <- data.frame(disco$lfc, ds=disco$ds)
+disco2 <- disco2[ order(abs(disco2$ds)), ]
+pal <- colorRampPalette(colors=c("blue", "lightgrey", "red"))(17)
+pal <- paste0(pal, "66")
+col <- tagcloud::smoothPalette(disco2$ds, pal=pal, min=-3, max=3)
+plot(disco2[,1], disco2[,2], pch=19, bty="n", 
+  xlab="Fold change on D1 vs D0", ylab="Fold change on D3 vs D0", col=col)
+abline(h=0, col="grey")
+abline(v=0, col="grey")
+```
+
+
+
+
+
+# Heatmaps
+
+## loading data
+
+```{r eval=TRUE}
+genes <- read_xlsx("Datasets/expression_data_vaccination_example.xlsx", 
+  sheet=2)
+e <- read_xlsx("Datasets/expression_data_vaccination_example.xlsx", 
+  sheet=3)
+t <- read_xlsx("Datasets/expression_data_vaccination_example.xlsx", 
+  sheet=1)
+res <- read.csv("Datasets/transcriptomics_results.csv")
+
+## res and genes are not identical!
+com <- intersect(genes$ProbeName, res$ProbeName)
+e <- data.matrix(e[ match(com, genes$ProbeName), ])
+genes <- genes[ match(com, genes$ProbeName), ]
+rownames(e) <- genes$GeneName
+res <- res[ match(com, res$ProbeName), ]
+all(res$ProbeName == genes$ProbeName)
+```
+
+
+## Selecting genes to plot on a heatmap
+
+```{r eval=TRUE}
+n <- 25 # top 50
+byqval <- order(res$qval.F.D1)
+sel <- byqval[1:n]
+
+downreg <- which(res$logFC.F.D1 < 0)
+downreg <- byqval[ byqval %in% downreg ][1:n]
+
+sel <- c(sel, downreg)
+
+
+## ordering and selecting columns
+group <- paste0(t$ARM, ".", t$Timepoint)
+csel <- order(group)
+## FLUAD only
+csel <- csel[ csel %in% which(t$ARM == "FLUAD") ] 
+```
+
+## Plotting the heatmap
+
+```{r}
+library(gplots)
+mtx <- t(e[sel, csel])
+
+## scale manually
+mtx <- scale(mtx)
+
+## palette
+pal <- colorRampPalette(c("cyan", "black", "purple"))
+heatmap.2(mtx, trace="n", scale="n", dendrogram="c", 
+  Rowv=FALSE, col=pal,
+  breaks=seq(-2, 2, length.out=15) )
+```
+
+
+## 
+
+```{r,eval=TRUE,echo=FALSE,fig.width=8,fig.height=6}
+library(gplots)
+mtx <- t(e[sel, csel])
+
+## scale manually
+mtx <- scale(mtx)
+
+## palette
+pal <- colorRampPalette(c("cyan", "black", "purple"))
+heatmap.2(mtx, trace="n", scale="n", dendrogram="c", 
+  Rowv=FALSE, col=pal,
+  breaks=seq(-2, 2, length.out=15) )
+```
+
+
+
+# Simple clustering
+
+## Hierarchical clustering
+
+```{r eval=TRUE}
+data(iris)
+mtx <- data.matrix(iris[,1:4])
+mtx <- scale(mtx)
+group <- factor(iris[,5])
+
+dd <- dist(mtx)
+tree <- hclust(dd)
+cl <- cutree(tree, k=3)
+table(cl, group)
+```
+
+## K-means clustering
+
+```{r eval=TRUE}
+n.cl <- 3
+km <- kmeans(mtx, n.cl)
+table(km$cluster, group)
+pal <- brewer.pal(n=n.cl, name="Dark2")
+```
+
+##
+
+```{r eval=TRUE,fig.width=7,fig.height=6}
+plot(mtx[,1], mtx[,2], col=pal[km$cluster], pch=c(15,17,19)[factor(iris[,5])], bty="n")
+points(km$centers[,1], km$centers[,2], pch=19, cex=4, col="#99999966")
+text(km$centers[,1], km$centers[,2], 1:n.cl, cex=2, col=pal)
+legend("topright", levels(group), pch=c(15,17,19), cex=1.5, bty="n")
+```
+
+
+
+

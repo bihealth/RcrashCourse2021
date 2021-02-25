@@ -1,0 +1,20 @@
+---
+title: "Suggested books"
+author: "January Weiner"
+output: html_document
+---
+
+Books which I have shown you during the course:
+
+ 1. R Cookbook by Paul Teetor
+
+ 2. R Graphics Cookbook by Winston Chang, [available online](https://r-graphics.org/)
+
+ 3. The R Book by Michael J. Crawley – a great guide to statistics with R
+
+ 3. Datendesign mit R by Thomas Rahlf (in German, available
+    [online](https://download.e-bookshelf.de/download/0000/8627/47/L-G-0000862747-0002952526.pdf))
+
+ 4. Visual Display of Quantitative Information by Edward Tufte: a beautiful
+    book discussing principles of data presentation.
+
