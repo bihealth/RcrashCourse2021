@@ -11,10 +11,97 @@ output:
 knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=TRUE,autodep=TRUE, results="hide")
 ```
 
+
+## Repetitorium of day 1: Example
+
+There is a lake in a garden. Every day, the water lilies cover twice as
+much area as the previous day. On the first day, the water lilies cover
+1/100th of the area of the lake.
+
+ * What is the formula to calculate the area covered by the water lilies on
+   day n? (pen and paper, not in Rstudio!)
+ * assign days 1 ... 10 to variable x. Now assign the fraction of the area
+   covered by water lilies on day n to variable y
+ * plot x vs y (use the simple `plot()` function)
+ * When will the half of the area be covered by water lilies? Use `abline(h=.5)`
+   (what does it do?) to show a graphical solution
+ * What is the fraction on day 3? Hint: what does `y[3]` do?
+ * Speaking of which, what dows `y[4:5]` do? (just try it!)
+
+## Creating your own functions for fun and profit
+
+ * If you have to write something more than twice, you should turn it into
+   a function!
+ * R is a *functional* language
+
+## Creating a function
+
+```{r eval=FALSE,echo=TRUE}
+#' Function name
+#' Function description
+some_name <- function(param1, param2=2) {
+
+## code comment
+# <your code goes in here>
+
+}
+```
+
+## Example
+
+```{r eval=FALSE,echo=TRUE}
+
+#' Function for pond calculation
+pond_surface_covered <- function(init_pond_surface, day=0) {
+
+  ## "**" and "^" do the same thing
+  ret <- init_pond_surface * 2^day
+
+  return(ret)
+}
+```
+
+
+## Example
+
+
+```{r eval=FALSE,echo=TRUE}
+
+#' Generate a random sample from a given distribution
+#' Usage: randsamp(n) where n is the size of the sample
+
+randsamp <- function(n, d="uniform") {
+
+  if(d == "uniform") {
+    ret <- runif(n)
+  } else if(d == "normal") {
+    ret <- rnorm(n)
+  } else {
+    stop("I don't know this distribution!")
+  }
+
+  return(ret)
+}
+```
+
+## Exercise 2.1
+
+Take the function above and add a new option: the binomial distribution.
+Which function can give you that? Search for a suitable function.
+
+Note: binomial distribution is essentially what you get when you throw a
+coin a number of times and add the results (1 for heads, 0 for tails). 
+This function requires two more parameters: number of "coin tosses"
+and probability of "heads". You need to adapt the code accordingly: choose
+something meaningful, e.g. size=1 and prob=0.5 to simulate a single fair
+coin toss.
+
+
+
 ## Data matrices
 
 Much like vectors, matrices can only hold one data type (e.g. only numeric
-or only character).
+or only character or only logical etc.).
 
 ```{r}
 m <- matrix(1:18, ncol=3, nrow=6)
@@ -60,6 +147,20 @@ m["B", ] # etc.
 ## Demonstration
 
 
+## Lists
+
+ * Lists hold all types of information
+ * Lists are really, really cool
+ * Lists have elements. An element of a list can have *any* type, including
+   another list.
+
+## Lists
+
+ Caveats:
+
+ * You access elements of a list using `[[`, not `[`
+ * Lists may have names (set with `names()`), but don't have to
+
 ## Data frames
 
 Data frames are a bit like matrices, but every column can store different
@@ -103,15 +204,27 @@ vectors can hold only one type of data.
 
   Gory details: matrices are a basic data type. Data frames are a list.
 
+## Data frames vs tibble
 
-## Excercise 2.1
+ Caveats:
+
+ * tibbles are the data frames from tidyverse
+ * Whatever you can do to a data frame, you can do to a tibble as well
+ * `read_*` functions return a tibble
+ * tibble do not have row names
+ * If you select a single row in a data frame, you get a smaller data
+   frame. If you select a single column, you get a vector.
+ * In tibble, you always get a smaller tibble.
+
+
+## Exercise 2.1
 
  * Create a 5x3 matrix with random numbers. Use `matrix` and `rnorm`.
  * Turn the matrix into a data frame. Use `as.data.frame` for that.
  * Add column and row names.
  * Add a column. Each value in the column should be "A" (a string). Use the
    `rep` function for that.
- * Add a column with numbers 1 to 5. Use the `seq` function for that.
+ * Add a column with five numbers from 0 to 1. Use the `seq` function for that.
 
 ## Using rep
 
@@ -323,7 +436,7 @@ long <- long[ , c("subject", "condition", "measurement") ]
 tidyr::spread(long, key="condition", value="measurement")
 ```
 
-## Excercise 2.3
+## Exercise 2.3
 
 Convert the following files to long format:
 
@@ -332,7 +445,7 @@ Convert the following files to long format:
  * `labresults_wide.csv`
  * `cars.xlsx` (tricky!)
 
-## Excercise 2.4
+## Exercise 2.4
 
 For the first sheet ("targets") from the file
 `expression_data_vaccination_example.xlsx`, create a new table. For each
