@@ -231,6 +231,21 @@ http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html
  * when someone will want to see it
 
 …so prepare in advance!
+
+## Summary Day 1
+
+ * Use `read_*` family of functions (e.g. `read_csv`, `read_tsv` etc.) for
+   reading files.
+ * Keep track of workspaces / projects. Use one directory for one project
+ * Everything in R is a function. It takes a certain number of parameters
+   and returns exactly one value.
+ * Some special functions are *operators*.
+ * Values can be assigned to variables (e.g. `a <- 2`).
+ * There are different types of values, including vectors. There are
+   numeric, character, logical and factor vectors.
+ * Factors are important, but dangerous. Never create a factor from integer
+   numbers!
+
  
  
 
