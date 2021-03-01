@@ -3,10 +3,13 @@ title: "R Crash course / 01"
 author: ""
 date: "`r Sys.Date()`"
 output:
-  ioslides_presentation: default
-abstract: |
-
+  ioslides_presentation: 
+    widescreen: true
+    smaller: true
+    css: files/style.css
+    logo: files/logo_bihealth_en.png
 toc: no
+abstract: |
 ---
 
 ```{r,echo=FALSE}
@@ -19,12 +22,17 @@ knitr::opts_chunk$set(echo=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.hei
 
 # R crash course
 
-## Data
+## Important links 
+
+ * E-mail: `<cubi-teaching@charite.de>` 
+ * Zoom: (see e-mail)
+ * Github: `https://github.com/bihealth/RcrashCourse2021`
 
 
-January Weiner <january.weiner@bihealth.de>
+## The Team
 
-Manuela Benary <manuela.benary@bihealth.de>
+
+![](images/team.png){ width=600px }
 
 ## Course files
 
@@ -41,7 +49,6 @@ To view the lectures, download the HTML file and open it in a browser.
 ## Let's go!
 
 ```{r eval=FALSE,echo=TRUE}
-library(tidyverse)
 iris <- read_tsv("iris.tsv")
 ```
 
@@ -93,30 +100,54 @@ Now, go ahead and do it!
 
 # R language basics
 
-## R language basics
+## R language basics (demo)
 
- * Assignment and variables
- * vectors and multiple assignment
- * operators
- * functions
+ * Assignment and variables (`a <- 2`)
+ * vectors and multiple assignment (`a <- c(1, 7, 9)`)
+ * operators (`3 + 5` or `a + 7`)
+ * functions (`sum(c(1, 2, 3))`)
 
-## Excercises 1
+## Exercises 1.1
 
  * create variables: a string, a number, a factor
+   * how to create the variables?
+   * how to view the variables?
  * create a factor variable 
+   * use the function `factor()`
  
+## Exercises 1.2
+  
+  * what does `1:5` do?
+  * what happens when you add a number to a vector? (i.e. `c(3, 1, 4) + 5`)
+  * what happens when you multiply a vector with a number?
+  * what happens when you add two vectors?
 
-## Excercises 2 
+## Exercises 1.3
 
-there is a lake in a garden. Every day, the water lilies cover twice as
+  Try the following code:
+
+```{r eval=FALSE,echo=TRUE}
+vec1 <- 1:10
+vec2 <- 20:30
+
+vec1 + vec2
+```
+
+This produces a warning message. Should you be worried? What happened?
+
+What does the `length()` function do?
+
+## Exercises 2 
+
+There is a lake in a garden. Every day, the water lilies cover twice as
 much area as the previous day. On the first day, the water lilies cover
 1/100th of the area of the lake.
 
  * What is the formula to calculate the area covered by the water lilies on
-   day n?
+   day n? (pen and paper, not in Rstudio!)
  * assign days 1 ... 10 to variable x. Now assign the fraction of the area
    covered by water lilies on day n to variable y
- * plot x vs y
+ * plot x vs y (use the simple `plot()` function)
  * When will the half of the area be covered by water lilies? Use `abline`
    (what does it do?) to show a graphical solution
  
@@ -209,7 +240,7 @@ http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html
 
 ## Creating a function
 
-```
+```{r eval=FALSE,echo=TRUE}
 #' Function name
 #' Function description
 some_name <- function(param1, param2=2) {
