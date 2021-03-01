@@ -27,6 +27,7 @@ knitr::opts_chunk$set(echo=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.hei
  * E-mail: `<cubi-teaching@charite.de>` 
  * Zoom: (see e-mail)
  * Github: `https://github.com/bihealth/RcrashCourse2021`
+ * Teams
 
 
 ## The Team
@@ -48,11 +49,12 @@ To view the lectures, download the HTML file and open it in a browser.
 
 ## Let's go!
 
+First example
+
 ```{r eval=FALSE,echo=TRUE}
 iris <- read_tsv("iris.tsv")
 ```
 
-Now, go ahead and do it!
 
 
 ## Why doesn't it work?
