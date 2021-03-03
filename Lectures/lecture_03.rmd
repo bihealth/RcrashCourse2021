@@ -3,7 +3,11 @@ title: "R crash course / 03"
 author: ""
 date: "`r Sys.Date()`"
 output:
-  ioslides_presentation: default
+  ioslides_presentation: 
+    widescreen: true
+    smaller: true
+    css: files/style.css
+    logo: files/logo_bihealth_en.png
 ---
 
 ```{r,echo=FALSE}
@@ -59,7 +63,8 @@ sort(as.character(v))
 ## Sorting data frames
 
 To sort a data frame according to one of its columns, we use `order` and
-then select rows of a data frame based on that order.
+then select rows of a data frame based on that order. That is the "classic"
+way of sorting.
 
 ```{r}
 df <- data.frame(id=paste0("ID", 1:10), val=rnorm(10))
@@ -68,6 +73,27 @@ df[ ord, ]
 df[ order(df$val, decreasing=TRUE), ]
 df[ order(abs(df$val), decreasing=TRUE), ]
 ```
+
+For numeric values, instead of `decreasing=TRUE`, you can just order by
+`-abs(df$val)`.
+
+## Sorting data fames with tidyverse
+
+Sorting with tidyverse is easier. 
+
+```{r}
+arrange(df, val)
+arrange(df, -val)
+```
+
+Note the lack of quotes around `val`! This is a feature in tidyverse which
+has two effects:
+
+ * it is easier to type (you save the typing of ONE WHOLE QUOTE in rstudio!
+   imagine how much time you have now)
+ * it makes programming a nightmare (what if "val" holds the *name* of the
+   column that you would like to sort by?)
+
 
 ## Example
 

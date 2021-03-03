@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2021-03-02" />
+  <meta name="date" content="2021-03-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -190,7 +190,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2021-03-02</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2021-03-03</p>
           </hgroup>
   </slide>
 
@@ -211,6 +211,7 @@ slide:not(.current) .plotly.html-widget{
 
 <ul>
 <li>Make the plot yourself.</li>
+<li>In Rmarkdown.</li>
 <li>use &lsquo;col&rsquo; parameter of <code>plot</code> and a color name (e.g. &ldquo;red&rdquo;) to change the color of the line (<code>plot(..., col=&quot;red&quot;)</code>)</li>
 <li>what if each day the lilies cover a fraction of area that is 1.5 the fraction of area on the previous day?</li>
 <li>Use <code>lines(x, y)</code> function to put a second line on the plot</li>
@@ -416,41 +417,41 @@ rep(c(&quot;A&quot;, &quot;B&quot;), each=5)
 </tr>
 <tr class="odd">
 <td align="left">TSV / TAB separated values</td>
-<td align="left"><code>read.table()</code></td>
+<td align="left"><code>read_table()</code></td>
 <td align="left">Tab is <code>\t</code>. A very general and customizable function</td>
 </tr>
 <tr class="even">
 <td align="left">CSV / comma separated</td>
-<td align="left"><code>read.csv()</code></td>
+<td align="left"><code>read_csv()</code></td>
 <td align="left">a wrapper around <code>read.table()</code></td>
 </tr>
 <tr class="odd">
 <td align="left">XLS (old Excel)</td>
-<td align="left"><code>read_xls()</code></td>
+<td align="left"><code>read_xls()</code> <code>read_excel()</code></td>
 <td align="left">Just don’t use it. From the <code>readxl</code> package.</td>
 </tr>
 <tr class="even">
 <td align="left">XLSX (new Excel)</td>
-<td align="left"><code>read_xlsx()</code></td>
+<td align="left"><code>read_xlsx()</code> <code>read_excel()</code></td>
 <td align="left">From the <code>readxl</code> package. You need to provide the sheet number you wish to read. Note: returns a tibble, not a data frame!</td>
 </tr>
 </table>
 
-</article></slide><slide class=""><hgroup><h2>Examples (demonstration)</h2></hgroup><article  class="smaller " id="examples-demonstration">
+</article></slide><slide class=""><hgroup><h2>Excercise 2.2</h2></hgroup><article  class="smaller " id="excercise-2.2">
+
+<p>Read, inspect and correct (if reasonable) the following files:</p>
 
 <ul>
-<li><code>header=TRUE</code></li>
-<li><code>colnames</code></li>
-<li><code>rownames</code></li>
-<li><code>sep=&quot;,&quot;</code></li>
-<li><code>stringsAsFactors</code></li>
-<li><code>quote</code></li>
-<li><code>comment.char</code></li>
+<li><code>cars.xlsx</code></li>
+<li><code>iris.csv</code></li>
+<li><code>expression_data_vaccination_example.xlsx</code> (large!)</li>
 </ul>
+
+<p>The function <code>readxl_example(&quot;deaths.xls&quot;)</code> returns a file name. Read this file. How can you omit the lines at the top and at the bottom of the file? (hint: <code>?read_xls</code>). How can you force the date columns to be interpreted as dates and not numbers?</p>
 
 </article></slide><slide class=""><hgroup><h2>Tibbles / readxl</h2></hgroup><article  class="smaller " id="tibbles-readxl">
 
-<p>tibbles belong to the tidyverse. They are nice to work with and very useful, but we will stick to data frames in this course. Therefore, do</p>
+<p>tibbles belong to the tidyverse. They are nice to work with and very useful, but we can stick to data frames for now. Therefore, do</p>
 
 <pre class = 'prettyprint lang-r'>mydataframe &lt;- as.data.frame(read_xlsx(&quot;file.xlsx&quot;))</pre>
 
@@ -466,18 +467,30 @@ rep(c(&quot;A&quot;, &quot;B&quot;), each=5)
 
 <p>Convert with <code>factor</code> when necessary (and only then).</p>
 
-</article></slide><slide class=""><hgroup><h2>Substitutions</h2></hgroup><article  class="smaller " id="substitutions">
+</article></slide><slide class=""><hgroup><h2>Substitutions (search &amp; replace)</h2></hgroup><article  class="smaller " id="substitutions-search-replace">
 
-<pre class = 'prettyprint lang-r'>group &lt;- c(&quot;Control&quot;, &quot; control&quot;, &quot;control &quot;, &quot;Control   &quot;)
+<ul>
+<li><code>gsub(string1, string2, text)</code> substitute all occurences of <code>string1</code> in by <code>string2</code> in <code>text</code></li>
+<li><code>sub(...)</code> same, but only the first occurence</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>## Clearly broken!
+group &lt;- c(&quot;Control&quot;, &quot; control&quot;, &quot;control &quot;, &quot;Control   &quot;)
 group &lt;- gsub(&quot;Control&quot;, &quot;control&quot;, group)
 group &lt;- gsub(&quot; &quot;, &quot;&quot;, group)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Regular expressions</h2></hgroup><article  class="smaller " id="regular-expressions">
 
+<p>Is there not a way to simplify things?</p>
+
 <pre class = 'prettyprint lang-r'>group &lt;- c(&quot;Control&quot;, &quot; control&quot;, &quot;control &quot;, &quot;Control   &quot;)
+
+# one method
+gsub(&quot; &quot;, &quot;&quot;, group) # but what happens if the groups are &quot;group 1&quot;, &quot;group 2&quot; etc?
 
 # substitute at the end of the string
 gsub(&quot; $&quot;, &quot;&quot;, group)
+
 # at the beginning
 gsub(&quot;^ &quot;, &quot;&quot;, group)
 
@@ -486,7 +499,18 @@ gsub(&quot; *&quot;, &quot;&quot;, group)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  class="smaller " id="regular-expression-cont.">
 
-<pre class = 'prettyprint lang-r'>foo &lt;- c(&quot;a1_123&quot;, &quot;a1_231&quot;, &quot;a2_17&quot;, &quot;b2_23&quot;, &quot;c2_889&quot;)
+<p>In regular expressions, some characters or strings have special meanings</p>
+
+<ul>
+<li>Some mean what is supposed to be replaced (e.g. <code>.</code>, dot, means &ldquo;any character&rdquo;)</li>
+<li>Some mean how many times something gets matched; e.g. <code>*</code> means &quot;any number of matches of the previous character, so <code>.*</code> means any character any number of times (like, everything)</li>
+<li>Some characters at certain position may also have a special meaning (like <code>^</code> means &ldquo;match the beginning of a string&rdquo; and <code>$</code> at the end of a regular expression means &ldquo;match at the end of a string&rdquo;).</li>
+<li>A string like <code>[abc]</code> will match only a, b and c, but not d. You can use ranges, e.g. <code>[0-9]</code> or <code>[a-z]</code></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  class="smaller " id="regular-expression-cont.-1">
+
+<pre class = 'prettyprint lang-r'>foo &lt;- c(&quot;a1_123&quot;, &quot;a1_231&quot;, &quot;a2_17&quot;, &quot;B2_23&quot;, &quot;c2_889&quot;)
 
 # substitute digits only
 gsub(&quot;[0-9]*&quot;, &quot;&quot;, foo)
@@ -494,8 +518,36 @@ gsub(&quot;[0-9]*&quot;, &quot;&quot;, foo)
 # substitute letters only
 gsub(&quot;[a-z]*&quot;, &quot;&quot;, foo)
 
+# same, but case insensitive
+gsub(&quot;[a-z]*&quot;, &quot;&quot;, foo, ignore.case=TRUE)
+
 # substitute everything after &quot;_&quot;
+# dot means &quot;any character&quot;
 gsub(&quot;_.*&quot;, &quot;&quot;, foo)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Regexps cont.</h2></hgroup><article  class="smaller " id="regexps-cont.">
+
+<p>You can wrap gsub around another gsub</p>
+
+<pre class = 'prettyprint lang-r'>vec &lt;- c(&quot;mouse&quot;, &quot; Mouse&quot;, &quot;mus domesticus&quot;, &quot;chicken&quot;, &quot;Schicken&quot;, &quot;Duck&quot;)
+vec &lt;- gsub(&quot;S*chicken&quot;, &quot;Chicken&quot;, gsub(&quot;^m.*&quot;, &quot;Mouse&quot;, gsub(&quot;^ *&quot;, &quot;&quot;, vec)))
+
+## same as
+
+vec &lt;- gsub(&quot;^ *&quot;, &quot;&quot;, vec)
+vec &lt;- gsub(&quot;^m.*&quot;, &quot;Mouse&quot;, vec)
+vec &lt;- gsub(&quot;S*chicken&quot;, &quot;Chicken&quot;, vec)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Exercice 2.regexp</h2></hgroup><article  class="smaller " id="exercice-2.regexp">
+
+<p>Figure out how to use gsub to do the following tasks:</p>
+
+<ul>
+<li>What matches all of the &ldquo;ANKRD&rdquo; genes in the following: <code>c(&quot;ANKRD22&quot;, * &quot;ank.rep.domain 12&quot;, &quot;ifng-1&quot;, &quot;ANKRD-33&quot;, &quot;  ankrd23&quot;)</code></li>
+<li>Make the following uniform: <code>c(&quot;male&quot;, &quot;Male &quot;, &quot;M&quot;, &quot;F&quot;, &quot;female&quot;, &quot; Female&quot;)</code></li>
+<li>Using <code>gsub</code> and the <code>toupper</code> function, clean up the gene names such that they conform to the HGNC (all capital letters, no spaces, no dashes): <code>c(&quot;ankrd22&quot;, &quot;ifng&quot;, &quot;Nf-kb&quot;, &quot; Cxcl 5&quot;, &quot;CCL 6.&quot;, &quot;ANK.r.d. 12&quot;)</code></li>
+<li>Read the data file <code>meta_data_botched.xlsx</code>. Spot and correct errors.</li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>Writing data</h2></hgroup><article  class="smaller " id="writing-data">
 
@@ -518,7 +570,7 @@ gsub(&quot;_.*&quot;, &quot;&quot;, foo)</pre>
 <tr class="even">
 <td align="left">CSV / comma separated</td>
 <td align="left"><code>write.csv()</code></td>
-<td align="left">a wrapper around <code>read.table()</code></td>
+<td align="left">a wrapper around <code>write.table()</code></td>
 </tr>
 <tr class="odd">
 <td align="left">XLS (old Excel)</td>
@@ -532,21 +584,23 @@ gsub(&quot;_.*&quot;, &quot;&quot;, foo)</pre>
 </tr>
 </table>
 
-</article></slide><slide class=""><hgroup><h2>Demonstration</h2></hgroup><article  class="smaller " id="demonstration-1">
+</article></slide><slide class=""><hgroup><h2>Wide and Long format (demonstration)</h2></hgroup><article  class="smaller " id="wide-and-long-format-demonstration">
 
-</article></slide><slide class=""><hgroup><h2>Excercise 2.2</h2></hgroup><article  class="smaller " id="excercise-2.2">
+</article></slide><slide class=""><hgroup><h2>Wide and Long format</h2></hgroup><article  class="smaller " id="wide-and-long-format">
 
-<p>Read, inspect and correct (if reasonable) the following files:</p>
+<p>Long advantages:</p>
 
 <ul>
-<li><code>cars.xlsx</code></li>
-<li><code>iris.csv</code></li>
-<li><code>expression_data_vaccination_example.xlsx</code> (large!)</li>
+<li>easier to filter, process, visualize, do statistics with</li>
+<li>focused on measurement (&ldquo;patient ID&rdquo; or equivalent is a covariate, and so is measurement type)</li>
 </ul>
 
-<p>The function <code>readxl_example(&quot;deaths.xls&quot;)</code> returns a file name. Read this file. How can you omit the lines at the top and at the bottom of the file? (hint: <code>?read_xls</code>). How can you force the date columns to be interpreted as dates and not numbers?</p>
+<p>Wide advantages:</p>
 
-</article></slide><slide class=""><hgroup><h2>Wide and Long format (demonstration)</h2></hgroup><article  class="smaller " id="wide-and-long-format-demonstration">
+<ul>
+<li>groups data by a covariate (&ldquo;patient ID&rdquo;)</li>
+<li>can be easier to manage (each column one measurement type)</li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>Converting from wide to long:</h2></hgroup><article  class="smaller " id="converting-from-wide-to-long">
 
@@ -557,10 +611,8 @@ gsub(&quot;_.*&quot;, &quot;&quot;, foo)</pre>
        3   F     9.5  13.1  13.8
        4   M    11.5  13.4  12.9
 &#39;)
-tidyr::gather(wide, key=&quot;condition&quot;, 
-             value=&quot;measurement&quot;,  control:cond2)</pre>
-
-<p><code>tidyr::gather</code> means we are accessing the <code>gather()</code> function from the <code>tidyr</code> package without having to call <code>library(tidyr)</code> first.</p>
+pivot_longer(wide, cols=c(&quot;control&quot;, &quot;cond1&quot;, &quot;cond2&quot;), 
+  names_to=&quot;condition&quot;, values_to=&quot;measurement&quot;)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Converting from long to wide</h2></hgroup><article  class="smaller " id="converting-from-long-to-wide">
 
@@ -579,12 +631,11 @@ tidyr::gather(wide, key=&quot;condition&quot;,
 
 </article></slide><slide class=""><hgroup><h2>Converting from long to wide</h2></hgroup><article  class="smaller " id="converting-from-long-to-wide-1">
 
-<pre class = 'prettyprint lang-r'>## not what we wanted!!!
-tidyr::spread(long, key=&quot;condition&quot;, value=&quot;measurement&quot;)
+<pre class = 'prettyprint lang-r'>## not what we wanted!!! Why?
+pivot_wider(long, names_from=&quot;condition&quot;, values_from=&quot;measurement&quot;)
 
 ## Instead: 
-long &lt;- long[ , c(&quot;subject&quot;, &quot;condition&quot;, &quot;measurement&quot;) ]
-tidyr::spread(long, key=&quot;condition&quot;, value=&quot;measurement&quot;)</pre>
+pivot_wider(long, id_cols=&quot;subject&quot;, names_from=&quot;condition&quot;, values_from=&quot;measurement&quot;)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Exercise 2.3</h2></hgroup><article  class="smaller " id="exercise-2.3">
 
@@ -599,7 +650,38 @@ tidyr::spread(long, key=&quot;condition&quot;, value=&quot;measurement&quot;)</p
 
 </article></slide><slide class=""><hgroup><h2>Exercise 2.4</h2></hgroup><article  class="smaller " id="exercise-2.4">
 
-<p>For the first sheet (&ldquo;targets&rdquo;) from the file <code>expression_data_vaccination_example.xlsx</code>, create a new table. For each Patient ID there should be one row. The row should contain a column for each day (D0, D1 etc.) containing the sample IDs collected on that day.</p></article></slide>
+<p>First: how do you specify the sheet of an Excel file with <code>read_xlsx</code>? How do you find out what sheets are in the file?</p>
+
+<p>For the first sheet (&ldquo;targets&rdquo;) from the file <code>expression_data_vaccination_example.xlsx</code>, create a new table. For each Patient ID there should be one row. The row should contain a column for each day (D0, D1 etc.) containing the sample IDs collected on that day.</p>
+
+</article></slide><slide class=""><hgroup><h2>A short note on organizing your data</h2></hgroup><article  class="smaller " id="a-short-note-on-organizing-your-data">
+
+<ul>
+<li>If possible, use a specialized tool and not Excel (a database, specialized clinical data management system, REDCap etc.)</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>And if you use Excel…</h2></hgroup><article  class="smaller " id="and-if-you-use-excel">
+
+<p>If you use Excel, follow these rules:</p>
+
+<ul>
+<li>Versionize your files</li>
+<li>Check data for consistency (e.g. with R!)</li>
+<li>Use preselected values</li>
+<li>Add a meta-data sheet describing the fields</li>
+<li>do not color-code or format-code your information (e.g. denoting treatment in bold)</li>
+<li>Add comments in separate fields</li>
+<li>NEVER throw away or replace any identifiers, always keep the old identifiers</li>
+<li>understand what you describe (patients? samples? assays?)</li>
+<li>understand the difference between wide and long format</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>And if you use Excel and don’t follow these rules</h2></hgroup><article  class="smaller " id="and-if-you-use-excel-and-dont-follow-these-rules">
+
+<ul>
+<li>brace yourself for bad times</li>
+<li>get used to nasty remarks</li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>

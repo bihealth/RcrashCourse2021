@@ -35,6 +35,7 @@ much area as the previous day. On the first day, the water lilies cover
 ## Exercise
 
  * Make the plot yourself.
+ * In Rmarkdown.
  * use 'col' parameter of `plot` and a color name (e.g. "red") to change
    the color of the line (`plot(..., col="red")`)
  * what if each day the lilies cover a fraction of area that is 1.5 the
@@ -263,20 +264,20 @@ Main data types you will encounter:
 ---------------------------- ------------------------------- --------------------------
 Data type                    Function                        Notes
 ---------------------------- ------------------------------- --------------------------
-TSV / TAB separated values   `read.table()`                  Tab is `\t`.
+TSV / TAB separated values   `read_table()`                  Tab is `\t`.
                                                              A very general and 
                                                              customizable function
 
-CSV / comma separated        `read.csv()`                    a wrapper around
+CSV / comma separated        `read_csv()`                    a wrapper around
                                                              `read.table()`
 
 XLS (old Excel)              `read_xls()`                    Just don't use it.
-                                                             From the
+                             `read_excel()`                  From the
                                                              `readxl`
                                                              package.
 
 XLSX (new Excel)             `read_xlsx()`                   From the `readxl` package.
-                                                             You need to
+                             `read_excel()`                  You need to
                                                              provide the
                                                              sheet number
                                                              you wish to
@@ -287,20 +288,24 @@ XLSX (new Excel)             `read_xlsx()`                   From the `readxl` p
 
 
 
-## Examples (demonstration)
+## Excercise 2.2
 
- * `header=TRUE`
- * `colnames`
- * `rownames`
- * `sep=","`
- * `stringsAsFactors`
- * `quote`
- * `comment.char`
+Read, inspect and correct (if reasonable) the following files:
+
+ * `cars.xlsx`
+ * `iris.csv`
+ * `expression_data_vaccination_example.xlsx` (large!)
+
+The function `readxl_example("deaths.xls")` returns a file name. Read this
+file. How can you omit the lines at the top and at the bottom of the file?
+(hint: `?read_xls`). How can you force the date columns to be interpreted
+as dates and not numbers?
+
 
 ## Tibbles / readxl
 
 tibbles belong to the tidyverse. They are nice to work with and very
-useful, but we will stick to data frames in this course. Therefore, do
+useful, but we can stick to data frames for now. Therefore, do
 
 ```{r}
 mydataframe <- as.data.frame(read_xlsx("file.xlsx"))
@@ -321,9 +326,14 @@ Use `summary()` to gain an overview of the data.
 
 Convert with `factor` when necessary (and only then).
 
-## Substitutions
+## Substitutions (search & replace)
+
+ * `gsub(string1, string2, text)` substitute all occurences of `string1` in
+    by `string2` in `text`
+ * `sub(...)` same, but only the first occurence
 
 ```{r}
+## Clearly broken!
 group <- c("Control", " control", "control ", "Control   ")
 group <- gsub("Control", "control", group)
 group <- gsub(" ", "", group)
@@ -331,11 +341,17 @@ group <- gsub(" ", "", group)
 
 ## Regular expressions
 
+Is there not a way to simplify things? 
+
 ```{r}
 group <- c("Control", " control", "control ", "Control   ")
 
+# one method
+gsub(" ", "", group) # but what happens if the groups are "group 1", "group 2" etc?
+
 # substitute at the end of the string
 gsub(" $", "", group)
+
 # at the beginning
 gsub("^ ", "", group)
 
@@ -345,8 +361,23 @@ gsub(" *", "", group)
 
 ## Regular expression cont.
 
+In regular expressions, some characters or strings have special meanings
+
+ * Some mean what is supposed to be replaced (e.g. `.`, dot,
+   means "any character")
+ * Some mean how many times something gets matched; e.g. `*` means "any
+   number of matches of the previous character, so `.*` means any character
+   any number of times (like, everything)
+ * Some characters at certain position may also have a special meaning
+   (like `^` means "match the beginning of a string" and `$` at the end of
+   a regular expression means "match at the end of a string").
+ * A string like `[abc]` will match only a, b and c, but not d. You can use
+   ranges, e.g. `[0-9]` or `[a-z]`
+
+## Regular expression cont.
+
 ```{r}
-foo <- c("a1_123", "a1_231", "a2_17", "b2_23", "c2_889")
+foo <- c("a1_123", "a1_231", "a2_17", "B2_23", "c2_889")
 
 # substitute digits only
 gsub("[0-9]*", "", foo)
@@ -354,9 +385,39 @@ gsub("[0-9]*", "", foo)
 # substitute letters only
 gsub("[a-z]*", "", foo)
 
+# same, but case insensitive
+gsub("[a-z]*", "", foo, ignore.case=TRUE)
+
 # substitute everything after "_"
+# dot means "any character"
 gsub("_.*", "", foo)
 ```
+
+## Regexps cont.
+
+You can wrap gsub around another gsub
+
+```{r}
+vec <- c("mouse", " Mouse", "mus domesticus", "chicken", "Schicken", "Duck")
+vec <- gsub("S*chicken", "Chicken", gsub("^m.*", "Mouse", gsub("^ *", "", vec)))
+
+## same as
+
+vec <- gsub("^ *", "", vec)
+vec <- gsub("^m.*", "Mouse", vec)
+vec <- gsub("S*chicken", "Chicken", vec)
+```
+
+## Exercice 2.regexp
+
+Figure out how to use gsub to do the following tasks:
+
+ * What matches all of the "ANKRD" genes in the following: `c("ANKRD22", * "ank.rep.domain 12", "ifng-1", "ANKRD-33", "  ankrd23")`
+ * Make the following uniform: `c("male", "Male ", "M", "F", "female", " Female")`
+ * Using `gsub` and the `toupper` function, clean up the gene names such
+   that they conform to the HGNC (all capital
+   letters, no spaces, no dashes): `c("ankrd22", "ifng", "Nf-kb", " Cxcl 5", "CCL 6.", "ANK.r.d. 12")`
+ * Read the data file `meta_data_botched.xlsx`. Spot and correct errors.
 
 ## Writing data
 
@@ -372,7 +433,7 @@ TSV / TAB separated values   `write.table()`                 Tab is `\t`.
                                                              column names 
 
 CSV / comma separated        `write.csv()`                    a wrapper around
-                                                             `read.table()`
+                                                             `write.table()`
 
 XLS (old Excel)                                              Just don't use it. No, 
                                                              seriously, don't.
@@ -385,24 +446,22 @@ XLSX (new Excel)             `write_xlsx()`                  From the `writexl`
 ---------------------------- ------------------------------- --------------------------
 
 
-## Demonstration
-
-
-## Excercise 2.2
-
-Read, inspect and correct (if reasonable) the following files:
-
- * `cars.xlsx`
- * `iris.csv`
- * `expression_data_vaccination_example.xlsx` (large!)
-
-The function `readxl_example("deaths.xls")` returns a file name. Read this
-file. How can you omit the lines at the top and at the bottom of the file?
-(hint: `?read_xls`). How can you force the date columns to be interpreted
-as dates and not numbers?
-
 
 ## Wide and Long format (demonstration)
+
+
+## Wide and Long format
+
+ Long advantages:
+
+  * easier to filter, process, visualize, do statistics with
+  * focused on measurement ("patient ID" or equivalent is a covariate, and so is measurement type)
+ 
+ Wide advantages:
+
+  * groups data by a covariate ("patient ID")
+  * can be easier to manage (each column one measurement type)
+
 
 
 ## Converting from wide to long:
@@ -415,12 +474,11 @@ wide <- read.table(header=TRUE, text='
        3   F     9.5  13.1  13.8
        4   M    11.5  13.4  12.9
 ')
-tidyr::gather(wide, key="condition", 
-             value="measurement",  control:cond2)
+pivot_longer(wide, cols=c("control", "cond1", "cond2"), 
+  names_to="condition", values_to="measurement")
 ```
 
-`tidyr::gather` means we are accessing the `gather()` function from the
-`tidyr` package without having to call `library(tidyr)` first.
+
 
 ## Converting from long to wide
 
@@ -442,12 +500,11 @@ long <- read.table(header=TRUE, text='
 ## Converting from long to wide
 
 ```{r}
-## not what we wanted!!!
-tidyr::spread(long, key="condition", value="measurement")
+## not what we wanted!!! Why?
+pivot_wider(long, names_from="condition", values_from="measurement")
 
 ## Instead: 
-long <- long[ , c("subject", "condition", "measurement") ]
-tidyr::spread(long, key="condition", value="measurement")
+pivot_wider(long, id_cols="subject", names_from="condition", values_from="measurement")
 ```
 
 ## Exercise 2.3
@@ -461,9 +518,36 @@ Convert the following files to long format:
 
 ## Exercise 2.4
 
+First: how do you specify the sheet of an Excel file with `read_xlsx`? How
+do you find out what sheets are in the file?
+
 For the first sheet ("targets") from the file
 `expression_data_vaccination_example.xlsx`, create a new table. For each
 Patient ID there should be one row. The row should contain a column for
 each day (D0, D1 etc.) containing the sample IDs collected on that day.
+
+## A short note on organizing your data
+
+ * If possible, use a specialized tool and not Excel (a database,
+   specialized clinical data management system, REDCap etc.)
+
+## And if you use Excel...
+
+ If you use Excel, follow these rules:
+
+   * Versionize your files
+   * Check data for consistency (e.g. with R!)
+   * Use preselected values 
+   * Add a meta-data sheet describing the fields
+   * do not color-code or format-code your information (e.g. denoting treatment in bold)
+   * Add comments in separate fields
+   * NEVER throw away or replace any identifiers, always keep the old identifiers
+   * understand what you describe (patients? samples? assays?)
+   * understand the difference between wide and long format
+
+## And if you use Excel and don't follow these rules
+
+  * brace yourself for bad times
+  * get used to nasty remarks
 
 
