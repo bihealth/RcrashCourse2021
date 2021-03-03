@@ -1,0 +1,64 @@
+---
+title: "Exercises"
+output:
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The lily pond problem
+
+There is a lake in a garden. Every day, the water lilies cover twice as much area as the previous day. On the first day, the water lilies cover 1/100th of the area of the lake.
+
+Formula for day n:
+
+$$A(n) = A_0 \cdot 2^n$$
+
+In the following, x are the days and y is the fraction of pond covered on day n. We start at day 0, when the coverage is 1/100th.
+
+```{r echo=TRUE}
+frac_init <- 1/100
+
+x <- 1:7
+
+y <- frac_init * 2^x
+plot(x, y, type="l", lty=3, bty="n", 
+     xlab="Day", ylab="Fraction of pond covered", 
+     main="Lily pond", col="red", log="y")
+y2 <- frac_init * 1.5^x
+lines(x, y2, col="blue", lty=2)
+abline(h=.5, col="grey")
+```
+
+And here, the ggplot2 version (you need nota worry about it)
+
+```{r echo=FALSE}
+library(ggplot2)
+df <- data.frame(x=x, y=y)
+ggplot(df, aes(x=x, y=y)) + geom_line() + theme_bw() + xlab("Day") + ylab("Fraction of pond covered") +
+  ggtitle("Lily pond") + geom_hline(yintercept =.5, color="grey")
+```
+
+
+# Dummy t test
+
+
+```{r}
+weight <- c(16, 17, 21, 23, 15)
+fac <- factor(c("male", "male", "female", "female", "male"))
+res <- t.test(weight ~ fac)
+```
+
+The p-value from the t-test was `r format.pval(res$p.value, digits=2)`.
