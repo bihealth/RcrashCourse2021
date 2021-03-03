@@ -412,7 +412,7 @@ vec <- gsub("S*chicken", "Chicken", vec)
 
 Figure out how to use gsub to do the following tasks:
 
- * What matches all of the "ANKRD" genes in the following: `c("ANKRD22", * "ank.rep.domain 12", "ifng-1", "ANKRD-33", "  ankrd23")`
+ * What matches all of the "ANKRD" genes in the following: `c("ANKRD22", "ank.rep.domain 12", "ifng-1", "ANKRD-33", "  ankrd23")`
  * Make the following uniform: `c("male", "Male ", "M", "F", "female", " Female")`
  * Using `gsub` and the `toupper` function, clean up the gene names such
    that they conform to the HGNC (all capital
