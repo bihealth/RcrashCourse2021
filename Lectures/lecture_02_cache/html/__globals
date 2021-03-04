@@ -1,0 +1,17 @@
+unnamed-chunk-2	
+unnamed-chunk-3	^	return
+unnamed-chunk-4	==	if	return	rnorm	runif	stop
+unnamed-chunk-5	dim	matrix	ncol	nrow
+unnamed-chunk-6	m
+unnamed-chunk-7	colnames<-	letters	LETTERS	ncol	nrow	rownames<-
+unnamed-chunk-8	c	class	data.frame
+unnamed-chunk-9	$	d
+unnamed-chunk-10	c	rep
+unnamed-chunk-11	as.data.frame	read_xlsx
+unnamed-chunk-12	c	gsub
+unnamed-chunk-13	c	gsub
+unnamed-chunk-14	c	gsub
+unnamed-chunk-15	c	gsub
+unnamed-chunk-16	c	pivot_longer	read.table
+unnamed-chunk-17	read.table
+unnamed-chunk-18	long	pivot_wider
