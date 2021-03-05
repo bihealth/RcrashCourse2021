@@ -29,7 +29,8 @@ library(RColorBrewer)
 The following slides are for your reference only. You can trace how I
 created the `labwide` data frame using meta-data from
 `expression_data_vaccination_example.xlsx` and `labresults_full.csv` data
-files. 
+files. The created result can be found in the file
+`labresults_wide_full.csv`.
 
 The data set contains laboratory measurements for several parameters (such
 as white blood cell count or C-reactive protein) for vaccinees vaccinated
@@ -116,6 +117,7 @@ labwide <- data.frame(labwide[,1:5], data.matrix(labwide[,6:35]))
 grouped by `groups`.
 
 ```{r}
+labwide <- read_csv("Datasets/labresults_wide_full.csv")[, -1 ]
 mean(labwide$NEUT)
 sd(labwide$NEUT)
 
