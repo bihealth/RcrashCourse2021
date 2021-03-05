@@ -36,3 +36,7 @@ Suggested Links:
  5. [R-bloggers](R-bloggers.com)
  6. [Collection of R-statistics](http://r-statistics.co/)
  7. [R cookbook](http://www.cookbook-r.com/)   
+ 8. Regular expressions:
+    
+    * [Test regexp](https://regexr.com)
+    * [R cheat sheet](https://rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf)
