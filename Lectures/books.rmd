@@ -15,6 +15,7 @@ Books which I have shown you during the course:
  4. Visual Display of Quantitative Information by Edward Tufte: a beautiful
     book discussing principles of data presentation.
 
+
 Suggested Links:
 
  1. Cheat sheets:
@@ -24,3 +25,12 @@ Suggested Links:
  2. R markdown:
   
    *  [R markdown definitive guide](https://bookdown.org/yihui/rmarkdown/)
+ 
+ 3. Stackexchange:
+
+   * [StackOveflow](https://stackoverflow.com)
+   * [CrossValidated](https://stats.stackexchange.com)
+ 
+ 4. [Statistical tools for high throughput data analysis](https://sthda.com)
+
+ 5. [R-bloggers](R-bloggers.com)
