@@ -12,9 +12,15 @@ Books which I have shown you during the course:
 
  3. The R Book by Michael J. Crawley – a great guide to statistics with R
 
- 3. Datendesign mit R by Thomas Rahlf (in German, available
-    [online](https://download.e-bookshelf.de/download/0000/8627/47/L-G-0000862747-0002952526.pdf))
-
  4. Visual Display of Quantitative Information by Edward Tufte: a beautiful
     book discussing principles of data presentation.
 
+Suggested Links:
+
+ 1. Cheat sheets:
+   * [R cheat sheet](https://rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf)
+   * [ggplot2](https://rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
+
+ 2. R markdown:
+  
+   *  [R markdown definitive guide](https://bookdown.org/yihui/rmarkdown/)
