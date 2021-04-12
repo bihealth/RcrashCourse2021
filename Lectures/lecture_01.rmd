@@ -51,7 +51,9 @@ To view the lectures, download the HTML file and open it in a browser.
  * Give you good habits
  * Proceed along a helix
 
-## Let's go!
+# How to start
+
+## Example R session
 
 First example
 
@@ -59,16 +61,6 @@ First example
 iris <- read_tsv("iris.tsv")
 ```
 
-
-# How to start
-
-## Examples of R applications
-
- * Why programming?
- * Why R?
- * Alternatives: Python, matlab, other statistical languages
-
-## Example R session
 
 ## Why doesn't it work?
 
@@ -95,6 +87,12 @@ iris <- read_tsv("iris.tsv")
   * `<filename>.Rproj` – Rstudio R project file containing some
     rstudio-specific settings (text file)
   * Anything else should be save by you
+
+## Examples of R applications
+
+ * Why programming?
+ * Why R?
+ * Alternatives: Python, matlab, other statistical languages
 
 ## A few notes on R
 
