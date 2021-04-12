@@ -42,6 +42,11 @@ To view the lectures, download the HTML file and open it in a browser.
 
 ## Aims
 
+ * R for data science (Hadley Wickham)
+ 
+![](images/data-science.png){ width=600px }
+
+
  * Give you a jump start
  * Give you good habits
  * Proceed along a helix
@@ -55,13 +60,6 @@ iris <- read_tsv("iris.tsv")
 ```
 
 
-
-## Why doesn't it work?
-
-![Error 1](images/error_01.png)
-
-![Error 2](images/error_02.png)
-
 # How to start
 
 ## Examples of R applications
@@ -71,6 +69,13 @@ iris <- read_tsv("iris.tsv")
  * Alternatives: Python, matlab, other statistical languages
 
 ## Example R session
+
+## Why doesn't it work?
+
+![Error 1](images/error_01.png)
+
+![Error 2](images/error_02.png)
+
 
 ## The rdesktop workplace
 
