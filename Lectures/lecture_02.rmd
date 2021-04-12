@@ -24,7 +24,7 @@ much area as the previous day. On the first day, the water lilies cover
 
  * What is the formula to calculate the area covered by the water lilies on
    day n? (pen and paper, not in Rstudio!)
- * assign days 1 ... 10 to variable x. Now assign the fraction of the area
+ * assign days 1 ... 10 to variable x (use `c()` or `:`). Now assign the fraction of the area
    covered by water lilies on day n to variable y
  * plot x vs y (use the simple `plot()` function)
  * When will the half of the area be covered by water lilies? Use `abline(h=.5)`
