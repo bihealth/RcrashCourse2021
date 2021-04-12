@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width
 ```
 
 
-## Repetitorium of day 1: Example
+## Repetitorium of day 1: Exercise 2.1
 
 There is a lake in a garden. Every day, the water lilies cover twice as
 much area as the previous day. On the first day, the water lilies cover
@@ -32,7 +32,7 @@ much area as the previous day. On the first day, the water lilies cover
  * What is the fraction on day 3? Hint: what does `y[3]` do?
  * Speaking of which, what dows `y[4:5]` do? (just try it!)
 
-## Exercise
+## Exercise 2.2
 
  * Make the plot yourself.
  * In Rmarkdown.
@@ -99,7 +99,7 @@ randsamp <- function(n, d="uniform") {
 }
 ```
 
-## Exercise 2.1
+## Exercise 2.3
 
 Take the function above and add a new option: the binomial distribution.
 Which function can give you that? Search for a suitable function.
@@ -232,7 +232,7 @@ vectors can hold only one type of data.
  * In tibble, you always get a smaller tibble.
 
 
-## Exercise 2.1
+## Exercise 2.4
 
  * Create a 5x3 matrix with random numbers. Use `matrix` and `rnorm`.
  * Turn the matrix into a data frame. Use `as.data.frame` for that.
@@ -288,7 +288,7 @@ XLSX (new Excel)             `read_xlsx()`                   From the `readxl` p
 
 
 
-## Excercise 2.2
+## Excercise 2.4
 
 Read, inspect and correct (if reasonable) the following files:
 
@@ -298,7 +298,7 @@ Read, inspect and correct (if reasonable) the following files:
 
 The function `readxl_example("deaths.xls")` returns a file name. Read this
 file. How can you omit the lines at the top and at the bottom of the file?
-(hint: `?read_xls`). How can you force the date columns to be interpreted
+(hint: `?read_excel`). How can you force the date columns to be interpreted
 as dates and not numbers?
 
 
@@ -408,7 +408,7 @@ vec <- gsub("^m.*", "Mouse", vec)
 vec <- gsub("S*chicken", "Chicken", vec)
 ```
 
-## Exercice 2.regexp
+## Exercice 2.5
 
 Figure out how to use gsub to do the following tasks:
 
@@ -507,7 +507,7 @@ pivot_wider(long, names_from="condition", values_from="measurement")
 pivot_wider(long, id_cols="subject", names_from="condition", values_from="measurement")
 ```
 
-## Exercise 2.3
+## Exercise 2.6
 
 Convert the following files to long format:
 
@@ -516,7 +516,7 @@ Convert the following files to long format:
  * `labresults_wide.csv`
  * `cars.xlsx` (tricky!)
 
-## Exercise 2.4
+## Exercise 2.6
 
 First: how do you specify the sheet of an Excel file with `read_xlsx`? How
 do you find out what sheets are in the file?
