@@ -1,0 +1,31 @@
+unnamed-chunk-2	c	gsub
+unnamed-chunk-3	c	gsub
+unnamed-chunk-4	c	gsub
+unnamed-chunk-5	c	gsub
+unnamed-chunk-6	c	pivot_longer	read.table
+unnamed-chunk-7	read.table
+unnamed-chunk-8	long	pivot_wider
+unnamed-chunk-9	rev	sample	sort
+unnamed-chunk-10	order	v
+unnamed-chunk-11	letters	order	sample	sort
+unnamed-chunk-12	as.character	sample	sort
+unnamed-chunk-13	$	abs	data.frame	order	paste0	rnorm
+unnamed-chunk-14	abs	arrange	df	val
+unnamed-chunk-15	c	colnames<-	read.csv
+unnamed-chunk-16	$	factor	head	res	sort	summary
+unnamed-chunk-17	$	abs	order	plot
+unnamed-chunk-18	$	abs	lines	loess.smooth	plot	res
+unnamed-chunk-19	$	abs	lines	loess.smooth	order	plot
+unnamed-chunk-20	$	<	filter	p.value	res
+unnamed-chunk-21	$	c	res
+unnamed-chunk-22	$	interferon	match	res
+unnamed-chunk-23	$	grep	head	length	res
+unnamed-chunk-24	$	grep	head	length	res
+unnamed-chunk-25	c	gsub
+unnamed-chunk-26	$	&	<	>	abs	interferon	res
+unnamed-chunk-27	intersect	letters
+unnamed-chunk-28	$	cbind	data.frame	intersect	letters	match	rnorm	sample
+unnamed-chunk-29	df1	df2	merge
+unnamed-chunk-30	c	data.frame	merge	rnorm
+unnamed-chunk-31	$	$<-	merge	paste
+unnamed-chunk-32	c	data.frame	merge	rep	rnorm

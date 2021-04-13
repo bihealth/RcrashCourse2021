@@ -15,6 +15,224 @@ output:
 knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=TRUE,autodep=TRUE, results="hide")
 ```
 
+# Cleaning data
+## A short note on organizing your data
+
+ * If possible, use a specialized tool and not Excel (a database,
+   specialized clinical data management system, REDCap etc.)
+
+## And if you use Excel...
+
+ If you use Excel, follow these rules:
+
+   * Versionize your files
+   * Check data for consistency (e.g. with R!)
+   * Use preselected values 
+   * Add a meta-data sheet describing the fields
+   * do not color-code or format-code your information (e.g. denoting treatment in bold)
+   * Add comments in separate fields
+   * NEVER throw away or replace any identifiers, always keep the old identifiers
+   * understand what you describe (patients? samples? assays?)
+   * understand the difference between wide and long format
+
+## And if you use Excel and don't follow these rules
+
+  * brace yourself for bad times
+  * get used to nasty remarks
+
+## Cleaning data in the scope of data analysis
+
+![](images/data-science.png){ width=600px }
+
+## Substitutions (search & replace)
+
+ * `gsub(string1, string2, text)` substitute all occurences of `string1` in
+    by `string2` in `text`
+ * `sub(...)` same, but only the first occurence
+
+```{r}
+## Clearly broken!
+group <- c("Control", " control", "control ", "Control   ")
+group <- gsub("Control", "control", group)
+group <- gsub(" ", "", group)
+```
+
+## Regular expressions
+
+Is there not a way to simplify things? 
+
+```{r}
+group <- c("Control", " control", "control ", "Control   ")
+
+# one method
+gsub(" ", "", group) # but what happens if the groups are "group 1", "group 2" etc?
+
+# substitute at the end of the string
+gsub(" $", "", group)
+
+# at the beginning
+gsub("^ ", "", group)
+
+# any number of occurences
+gsub(" *", "", group)
+```
+
+## Regular expression cont.
+
+In regular expressions, some characters or strings have special meanings
+
+ * Some mean what is supposed to be replaced (e.g. `.`, dot,
+   means "any character")
+ * Some mean how many times something gets matched; e.g. `*` means "any
+   number of matches of the previous character, so `.*` means any character
+   any number of times (like, everything)
+ * Some characters at certain position may also have a special meaning
+   (like `^` means "match the beginning of a string" and `$` at the end of
+   a regular expression means "match at the end of a string").
+ * A string like `[abc]` will match only a, b and c, but not d. You can use
+   ranges, e.g. `[0-9]` or `[a-z]`
+
+## Regular expression cont.
+
+```{r}
+foo <- c("a1_123", "a1_231", "a2_17", "B2_23", "c2_889")
+
+# substitute digits only
+gsub("[0-9]*", "", foo)
+
+# substitute letters only
+gsub("[a-z]*", "", foo)
+
+# same, but case insensitive
+gsub("[a-z]*", "", foo, ignore.case=TRUE)
+
+# substitute everything after "_"
+# dot means "any character"
+gsub("_.*", "", foo)
+```
+
+## Regexps cont.
+
+You can wrap gsub around another gsub
+
+```{r}
+vec <- c("mouse", " Mouse", "mus domesticus", "chicken", "Schicken", "Duck")
+vec <- gsub("S*chicken", "Chicken", gsub("^m.*", "Mouse", gsub("^ *", "", vec)))
+
+## same as
+
+vec <- gsub("^ *", "", vec)
+vec <- gsub("^m.*", "Mouse", vec)
+vec <- gsub("S*chicken", "Chicken", vec)
+```
+
+## Exercise 3.1
+
+Figure out how to use gsub to do the following tasks:
+
+ * What matches all of the "ANKRD" genes in the following: `c("ANKRD22", "ank.rep.domain 12", "ifng-1", "ANKRD-33", "  ankrd23")`
+ * Make the following uniform: `c("male", "Male ", "M", "F", "female", " Female")`
+ * Using `gsub` and the `toupper` function, clean up the gene names such
+   that they conform to the HGNC (all capital
+   letters, no spaces, no dashes): `c("ankrd22", "ifng", "Nf-kb", " Cxcl 5", "CCL 6.", "ANK.r.d. 12")`
+ * Read the data file `meta_data_botched.xlsx`. Spot and correct errors.
+
+## Writing data
+
+Main data types you will encounter:
+
+---------------------------- ------------------------------- --------------------------
+Data type                    Function                        Notes
+---------------------------- ------------------------------- --------------------------
+TSV / TAB separated values   `write.table()`                 Tab is `\t`.
+                                                             A very general and 
+                                                             customizable function
+                                                             Warning:
+                                                             column names 
+
+CSV / comma separated        `write.csv()`                    a wrapper around
+                                                             `write.table()`
+
+XLS (old Excel)                                              Just don't use it. No, 
+                                                             seriously, don't.
+
+XLSX (new Excel)             `write_xlsx()`                  From the `writexl` 
+                                                             package.
+                                                             Warning:
+                                                             row names
+                                                             omitted!
+---------------------------- ------------------------------- --------------------------
+
+
+
+## Wide and Long format (demonstration)
+
+
+## Wide and Long format
+
+ Long advantages:
+
+  * easier to filter, process, visualize, do statistics with
+  * focused on measurement ("patient ID" or equivalent is a covariate, and so is measurement type)
+ 
+ Wide advantages:
+
+  * groups data by a covariate ("patient ID")
+  * can be easier to manage (each column one measurement type)
+
+
+
+## Converting from wide to long:
+
+```{r}
+wide <- read.table(header=TRUE, text='
+ subject sex control cond1 cond2
+       1   M     7.9  12.3  10.7
+       2   F     6.3  10.6  11.1
+       3   F     9.5  13.1  13.8
+       4   M    11.5  13.4  12.9
+')
+pivot_longer(wide, cols=c("control", "cond1", "cond2"), 
+  names_to="condition", values_to="measurement")
+```
+
+
+
+## Converting from long to wide
+
+```{r}
+long <- read.table(header=TRUE, text='
+ subject  sampleID sex condition measurement
+       1  ID000001 M   control         7.9
+       1  ID000002 M     cond1        12.3
+       1  ID000003 M     cond2        10.7
+       2  ID000004 F   control         6.3
+       2  ID000005 F     cond1        10.6
+       2  ID000006 F     cond2        11.1
+       3  ID000007 F   control         9.5
+       3  ID000008 F     cond1        13.1
+       3  ID000009 F     cond2        13.8
+')
+```
+
+## Converting from long to wide
+
+```{r}
+## not what we wanted!!! Why?
+pivot_wider(long, names_from="condition", values_from="measurement")
+
+## Instead: 
+pivot_wider(long, id_cols="subject", names_from="condition", values_from="measurement")
+```
+
+## Exercise 3.2
+
+Convert the following files to long format:
+
+ * `iris.csv`
+ * `mtcars_wide.csv`
+ * `labresults_wide.csv`
+ * `cars.xlsx` (tricky!)
 
 
 # Searching, sorting and selecting
@@ -180,7 +398,7 @@ filter(res, p.value < 0.05)
 ## see comment about tidyverse above
 ```
 
-## Excercise 3.1
+## Excercise 3.3
 
  * Load the example transcriptomic data (`transcriptomics_results.csv`)
  * Try sorting of the data frame; by gene name, by identifier, by log fold
@@ -279,7 +497,7 @@ res[sel, ] ## or: filter(res, sel)
 ```
 
 
-## Excercise 3.2
+## Excercise 3.4
 
  * Search for ribosomal genes. How many did you find?
  * Create a data frame which contains only genes that are not "Other" or
@@ -381,7 +599,7 @@ merge(df1, df2, by="subject.id")
 ```
 
 
-## Excercise 3.3
+## Excercise 3.5
 
 The files `expression_data_vaccination_example.xlsx` and
 `labresults_full.csv` contain data from the same study.
