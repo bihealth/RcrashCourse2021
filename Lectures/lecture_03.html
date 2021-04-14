@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2021-04-13" />
+  <meta name="date" content="2021-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3250,7 +3250,7 @@ background: #70ACC0;
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2021-04-13</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2021-04-14</p>
           </hgroup>
   </slide>
 
@@ -3515,7 +3515,7 @@ df[ order(abs(df$val), decreasing=TRUE), ]</pre>
 
 <p>For numeric values, instead of <code>decreasing=TRUE</code>, you can just order by <code>-abs(df$val)</code>.</p>
 
-</article></slide><slide class=""><hgroup><h2>Sorting data fames with tidyverse</h2></hgroup><article  id="sorting-data-fames-with-tidyverse" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Sorting data frames with tidyverse</h2></hgroup><article  id="sorting-data-frames-with-tidyverse" class="smaller ">
 
 <p>Sorting with tidyverse is easier.</p>
 
@@ -3668,97 +3668,7 @@ res[sel, ] ## or: filter(res, sel)</pre>
 <li>Create a data frame which contains only genes that are not &ldquo;Other&rdquo; or &ldquo;Unknown&rdquo;.</li>
 <li>Find all significantly upregulated cytokines.</li>
 <li>How many interleukine genes are significantly down-regulated?</li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Matching data sets</h2></hgroup><article  id="matching-data-sets" class="smaller ">
-
-</article></slide><slide class=""><hgroup><h2>Finding common IDs</h2></hgroup><article  id="finding-common-ids" class="smaller ">
-
-<p>We can use <code>intersect()</code> for that.</p>
-
-<pre class = 'prettyprint lang-r'>set1 &lt;- letters[1:5]
-set2 &lt;- letters[3:7]
-intersect(set1, set2)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Finding common IDs cont.</h2></hgroup><article  id="finding-common-ids-cont." class="smaller ">
-
-<pre class = 'prettyprint lang-r'>df1 &lt;- data.frame(ID=sample(letters, 15), value1=rnorm(15))
-df2 &lt;- data.frame(ID=sample(letters, 15), value2=rnorm(15))
-common &lt;- intersect(df1$ID, df2$ID)
-
-df1[ match(common, df1$ID), ]
-df2[ match(common, df2$ID), ]
-
-cbind(df1[ match(common, df1$ID), ], df2[ match(common, df2$ID), ])</pre>
-
-</article></slide><slide class=""><hgroup><h2>Merging</h2></hgroup><article  id="merging" class="smaller ">
-
-<p>A better, but more complex solution to merge two data frames is the <code>merge()</code> function.</p>
-
-<p>Some SQL terminology:</p>
-
-<ul>
-<li>inner join: we are merging only common elements</li>
-<li>outer join: we are making sure that elements from both sets are taken over</li>
-<li>left outer join: same, but only for the first set</li>
-<li>right outer join: same, but only for the second set</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Merging (cont.)</h2></hgroup><article  id="merging-cont." class="smaller ">
-
-<p>Usage of the <code>merge()</code> function:</p>
-
-<pre class = 'prettyprint lang-r'>merge(df1, df2) # inner join by default
-merge(df1, df2, all.x=TRUE) # left outer join
-merge(df1, df2, all.y=TRUE) # right outer join
-merge(df1, df2, all=TRUE) # outer join</pre>
-
-<p>Note: tidyverse contains functions <code>inner_join</code>, <code>outer_join</code> etc. which look slightly more specific (but do the same).</p>
-
-</article></slide><slide class=""><hgroup><h2>Merging (cont.)</h2></hgroup><article  id="merging-cont.-1" class="smaller ">
-
-<p>The <code>by</code>, <code>by.x</code> and <code>by.y</code> parameters tell <code>merge</code> which columns contain the identifiers by which to join. It is always safer to specify this parameter!</p>
-
-<pre class = 'prettyprint lang-r'>df1 &lt;- data.frame(ID=c(&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;), no=c(1, 2, 3, 4), 
-  value=rnorm(4))
-df2 &lt;- data.frame(ID=c(&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;), no=c(1, 2, 3, 4), 
-  value=rnorm(4))
-merge(df1, df2)           ## not what we wanted
-merge(df1, df2, by=&quot;ID&quot;)  ## not what we wanted
-merge(df1, df2, by=c(&quot;ID&quot;, &quot;no&quot;))</pre>
-
-</article></slide><slide class=""><hgroup><h2>Merging (cont.)</h2></hgroup><article  id="merging-cont.-2" class="smaller ">
-
-<p>A simpler (but requiring more steps) alternative would be to make a new identifier:</p>
-
-<pre class = 'prettyprint lang-r'>df1$ID2 &lt;- paste(df1$ID, df1$no, sep=&quot;.&quot;)
-df2$ID2 &lt;- paste(df2$ID, df2$no, sep=&quot;.&quot;)
-merge(df1, df2, by=&quot;ID2&quot;)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Another example</h2></hgroup><article  id="another-example" class="smaller ">
-
-<pre class = 'prettyprint lang-r'>df1 &lt;- data.frame(subject.id=1:3, sex=c(&quot;M&quot;, &quot;F&quot;, &quot;F&quot;), 
-  age=c(28, 35, 29))
-df2 &lt;- data.frame(subject.id=rep(1:3, each=2), 
-  timepoint=rep(1:2, 3), value=rnorm(6))
-merge(df1, df2, by=&quot;subject.id&quot;)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Excercise 3.5</h2></hgroup><article  id="excercise-3.5" class="smaller ">
-
-<p>The files <code>expression_data_vaccination_example.xlsx</code> and <code>labresults_full.csv</code> contain data from the same study.</p>
-
-<ol>
-<li>read the first sheet from the XLSX file and the CSV file.</li>
-<li>Which columns ID the subjects? Are there any subjects in common? How do you match the subjects?</li>
-<li>We are interested only in the following information: Subject ID, ARM (group), Time point, sex, age, test name and the actual measurement. Are the measurements numeric? Remember, you can use expressions like <code>[ , c(&quot;ARM&quot;, &quot;sex&quot;) ]</code> to select the desired columns from a data set.</li>
-<li>Use the subjects to merge the two data frames however you see fit. Note that there are multiple time points per subject and multiple measurements per subject and time point.</li>
-</ol>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Simple statistics with R</h2></hgroup><article  id="simple-statistics-with-r" class="smaller ">
-
-</article></slide><slide class=""><hgroup><h2>Basic tests (demonstration)</h2></hgroup><article  id="basic-tests-demonstration" class="smaller ">
-
-</article></slide><slide class=""><hgroup><h2>Basic plots (demonstration)</h2></hgroup><article  id="basic-plots-demonstration" class="smaller "></article></slide>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
