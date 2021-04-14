@@ -13,6 +13,10 @@ output:
 ```{r,echo=FALSE}
 ## Set default options for the knitr RMD processing
 knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=FALSE,autodep=TRUE, results="hide")
+knitr::opts_knit$set(root.dir = "../")
+```
+
+```{r, eval=TRUE, echo=FALSE, message=FALSE}
 library(readxl)
 library(beeswarm)
 library(tidyr)
@@ -21,6 +25,115 @@ library(sm)
 library(zoo)
 library(RColorBrewer)
 ```
+
+# Matching data sets
+
+## Finding common IDs
+
+We can use `intersect()` for that.
+
+```{r}
+set1 <- letters[1:5]
+set2 <- letters[3:7]
+intersect(set1, set2)
+```
+
+
+## Finding common IDs cont.
+
+
+```{r}
+df1 <- data.frame(ID=sample(letters, 15), value1=rnorm(15))
+df2 <- data.frame(ID=sample(letters, 15), value2=rnorm(15))
+common <- intersect(df1$ID, df2$ID)
+
+df1[ match(common, df1$ID), ]
+df2[ match(common, df2$ID), ]
+
+cbind(df1[ match(common, df1$ID), ], df2[ match(common, df2$ID), ])
+```
+
+## Merging
+
+A better, but more complex solution to merge two data frames is the
+`merge()` function.
+
+Some SQL terminology:
+
+ * inner join: we are merging only common elements
+ * outer join: we are making sure that elements from both sets are taken
+   over
+ * left outer join: same, but only for the first set
+ * right outer join: same, but only for the second set
+
+
+## Merging (cont.)
+
+Usage of the `merge()` function:
+
+```{r}
+merge(df1, df2) # inner join by default
+merge(df1, df2, all.x=TRUE) # left outer join
+merge(df1, df2, all.y=TRUE) # right outer join
+merge(df1, df2, all=TRUE) # outer join
+```
+
+Note: tidyverse contains functions `inner_join`, `outer_join` etc. which
+look slightly more specific (but do the same).
+
+## Merging (cont.)
+
+The `by`, `by.x` and `by.y` parameters tell `merge` which columns contain
+the identifiers by which to join. It is always safer to specify this
+parameter!
+
+```{r}
+df1 <- data.frame(ID=c("a", "a", "b", "c"), no=c(1, 2, 3, 4), 
+  value=rnorm(4))
+df2 <- data.frame(ID=c("a", "a", "b", "c"), no=c(1, 2, 3, 4), 
+  value=rnorm(4))
+merge(df1, df2)           ## not what we wanted
+merge(df1, df2, by="ID")  ## not what we wanted
+merge(df1, df2, by=c("ID", "no"))
+```
+
+## Merging (cont.)
+
+A simpler (but requiring more steps) alternative would be to make a new
+identifier:
+
+```{r}
+df1$ID2 <- paste(df1$ID, df1$no, sep=".")
+df2$ID2 <- paste(df2$ID, df2$no, sep=".")
+merge(df1, df2, by="ID2")
+```
+
+## Another example
+
+```{r}
+df1 <- data.frame(subject.id=1:3, sex=c("M", "F", "F"), 
+  age=c(28, 35, 29))
+df2 <- data.frame(subject.id=rep(1:3, each=2), 
+  timepoint=rep(1:2, 3), value=rnorm(6))
+merge(df1, df2, by="subject.id")
+```
+
+
+## Excercise 4.1
+
+The files `expression_data_vaccination_example.xlsx` and
+`labresults_full.csv` contain data from the same study.
+
+ 1. read the first sheet from the XLSX file and the CSV file.
+ 3. Which columns ID the subjects? Are there any subjects in common? How do
+    you match the subjects?
+ 5. We are interested only in the following information: Subject ID, ARM
+    (group), Time point, sex, age, test name and the actual measurement.
+    Are the measurements numeric? Remember, you can use expressions like `[ , c("ARM", "sex") ]` 
+    to select the desired columns from a data set.
+ 4. Use the subjects to merge the two data frames however you see fit. Note
+    that there are multiple time points per subject and multiple
+    measurements per subject and time point.
 
 # Creating the LABRES data set
 
@@ -41,8 +154,7 @@ vaccination.
 ## Reading and column selection
 
 ```{r,eval=TRUE}
-targets <- read_xlsx("Datasets/expression_data_vaccination_example.xlsx", 
-  sheet=1)
+targets <- read_excel("Datasets/expression_data_vaccination_example.xlsx", sheet = 1)
 targets <- targets[ , c("USUBJID", "Timepoint", "ARM", "SEX", "AGE") ]
 lab <- read.csv("Datasets/labresults_full.csv")
 lab <- lab[ , 
@@ -164,7 +276,7 @@ tidy(t.test(x[d0 & fluad], x[d1 & fluad], paired=TRUE))
 
 We must make sure that all the data points are paired!
 
-## Excercise 4.1
+## Excercise 4.2
 
  * Run t-test for CRP (C-reactive protein), LYM (lymphocytes)
  * `wilcox.test()` is the U test / Mann Whitney test / Wilcoxon test. Try it. Are the p-values different?
@@ -207,7 +319,7 @@ library(beeswarm)
 beeswarm(NEUT ~ group, data=labwide)
 ```
 
-## Excercise 4.2
+## Excercise 4.3
 
  * Create box plots for selected variables
 
