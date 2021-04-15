@@ -195,12 +195,12 @@ merged <- merge(targets, lab, by=c("USUBJID", "Timepoint"))
 ## and "LBTEST" contain the same information – we cannot 
 ## store both in the column names
 
-labwide <- spread(merged, key="LBTESTCD", value="LBORRES")
+labwide <- pivot_wider(merged, names_from="LBTESTCD", values_from="LBORRES")
 ```
 
 ```{r eval=TRUE}
 ## this works
-labwide <- spread(merged[ , colnames(merged) != "LBTEST"], key="LBTESTCD", value="LBORRES")
+labwide <- pivot_wider(merged[ , colnames(merged) != "LBTEST"], names_from="LBTESTCD", values_from="LBORRES")
 ```
 
 ## Cleaning up
