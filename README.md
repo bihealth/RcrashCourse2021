@@ -19,5 +19,6 @@ To view HTML files, use the following links:
    * [Lecture 2](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_02.html)
    * [Lecture 3](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_03.html)
    * [Lecture 4](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_04.html)
+   * [Lecture 5](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_05.html)
 
 **Scripts from the Course.** The scripts with analysis for each day are provided in the folder Scripts/ . They contain commands discussed during the lectures and example solutions for the exercises.
