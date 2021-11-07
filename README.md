@@ -1,4 +1,4 @@
-# RcrashCourse2021
+# R crash course 11/2021
 
 The CUBI R crash course
 
@@ -14,11 +14,7 @@ HTML source.
 
 To view HTML files, use the following links:
 
- * Lectures
-   * [Lecture 1](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_01.html)
-   * [Lecture 2](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_02.html)
-   * [Lecture 3](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_03.html)
-   * [Lecture 4](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_04.html)
-   * [Lecture 5](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_05.html)
+## Lectures
+
 
 **Scripts from the Course.** The scripts with analysis for each day are provided in the folder Scripts/ . They contain commands discussed during the lectures and example solutions for the exercises.
