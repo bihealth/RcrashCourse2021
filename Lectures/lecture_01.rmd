@@ -32,7 +32,25 @@ knitr::opts_chunk$set(echo=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.hei
 ## The Team
 
 
-![](images/team_042021.png){ width=900px }
+![](images/team_112021.png){ height=600px }
+
+## Getting to know you
+
+## Aims
+
+ * R for data science (Hadley Wickham)
+ 
+![](images/data-science.png){ width=600px }
+
+ * Give you a jump start to 
+    * exchange data between R and spreadsheet programs such as Excel
+    * manipulate and display the data
+    * run simple statistical analysis (t-test, non-parametric tests, basic ANOVA, basic linear regression) 
+    * create reports from your analysis in a number of formats
+
+ * Give you good habits
+ * Proceed along a helix
+
 
 ## Course files
 
@@ -42,16 +60,11 @@ Course pages (for viewing lectures): https://bihealth.github.io/RcrashCourse2021
 
 To view the lectures, click on the link or download the HTML file and open it in a browser.
 
-## Aims
+## Aims for today
 
- * R for data science (Hadley Wickham)
- 
-![](images/data-science.png){ width=600px }
-
-
- * Give you a jump start
- * Give you good habits
- * Proceed along a helix
+* Introducing RStudio as environment for developing your own programs
+* Concepts on good coding practice
+* Language basics of R (variables, operators, functions ...)
 
 # How to start
 
@@ -225,9 +238,6 @@ http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html
 
 ## Summary Day 1
 
- * Use `read_*` family of functions (e.g. `read_csv`, `read_tsv` etc.) for
-   reading files.
- * Keep track of workspaces / projects. Use one directory for one project
  * Everything in R is a function. It takes a certain number of parameters
    and returns exactly one value.
  * Some special functions are *operators*.
@@ -236,6 +246,7 @@ http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html
    numeric, character, logical and factor vectors.
  * Factors are important, but dangerous. Never create a factor from integer
    numbers!
-
+ * Use `read_*` family of functions (e.g. `read_csv`, `read_tsv` etc.) for
+   reading files.
  
-
+ * Keep track of workspaces / projects. Use one directory for one project
