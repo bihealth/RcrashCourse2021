@@ -15,8 +15,15 @@ output:
 knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=TRUE,autodep=TRUE, results="hide")
 ```
 
+## Aims for today
 
-## Repetitorium of day 1: Exercise 2.1
+* Complex data structures (matrices, lists and data frames)
+* Coming back to writing your own functions
+* Reading data from files
+
+## Repetitorium of Day 1
+
+## Exercise 2.1
 
 There is a lake in a garden. Every day, the water lilies cover twice as
 much area as the previous day. On the first day, the water lilies cover
