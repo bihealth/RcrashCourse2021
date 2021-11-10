@@ -65,6 +65,23 @@ group <- gsub("Control", "control", group)
 group <- gsub(" ", "", group)
 ```
 
+Notes:
+
+The above operations are so common that there are "shortcut" functions
+defined in R:
+
+```{r}
+## get rid of the spaces
+trimws(group)
+
+## make everything lower case
+tolower(group)
+
+## make everything upper case
+toupper(group)
+```
+
+
 ## Regular expressions
 
 Is there not a way to simplify things? 
