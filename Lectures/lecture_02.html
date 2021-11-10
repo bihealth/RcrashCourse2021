@@ -417,45 +417,55 @@ rep(c(&quot;A&quot;, &quot;B&quot;), each=5)
 <p>Main data types you will encounter:</p>
 
 <table class = 'rmdtable'>
-<col width="32.954545%" />
-<col width="36.363636%" />
-<col width="30.681818%" />
+<col width="24.166667%" />
+<col width="26.666667%" />
+<col width="26.666667%" />
+<col width="22.500000%" />
 <tr class="header">
 <th align="left">Data type</th>
 <th align="left">Function</th>
+<th align="left">Package</th>
 <th align="left">Notes</th>
 </tr>
 <tr class="odd">
 <td align="left">Columns separated by spaces</td>
 <td align="left"><code>read_table()</code></td>
+<td align="left"><code>readr</code></td>
 <td align="left">one or more spaces separate each column</td>
 </tr>
 <tr class="even">
 <td align="left">TSV / TAB separated values</td>
 <td align="left"><code>read_tsv()</code></td>
+<td align="left"><code>readr</code></td>
 <td align="left">Delimiter is tab (<code>\t</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left">CSV / comma separated</td>
 <td align="left"><code>read_csv()</code></td>
+<td align="left"><code>readr</code></td>
 <td align="left">Comma separated values</td>
 </tr>
 <tr class="even">
 <td align="left">Any delimiter</td>
 <td align="left"><code>read_delim()</code></td>
+<td align="left"><code>readr</code></td>
 <td align="left">Customizable</td>
 </tr>
 <tr class="odd">
 <td align="left">XLS (old Excel)</td>
 <td align="left"><code>read_xls()</code> <code>read_excel()</code></td>
+<td align="left"><code>readxl</code></td>
 <td align="left">Just don’t use it. From the <code>readxl</code> package.</td>
 </tr>
 <tr class="even">
 <td align="left">XLSX (new Excel)</td>
 <td align="left"><code>read_xlsx()</code> <code>read_excel()</code></td>
+<td align="left"><code>readxl</code></td>
 <td align="left">From the <code>readxl</code> package. You need to provide the sheet number you wish to read. Note: returns a tibble, not a data frame!</td>
 </tr>
 </table>
+
+<p>Note: there are also &ldquo;base R&rdquo; functions <code>read.table</code>, <code>read.csv</code>, <code>read.tsv</code> (there is no function for reading XLS[X] files in base R). The tidyverse functions above are preferable.</p>
 
 </article></slide><slide class=""><hgroup><h2>Excercise 2.5</h2></hgroup><article  id="excercise-2.5" class="smaller ">
 

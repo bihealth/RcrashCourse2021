@@ -268,34 +268,37 @@ rep(c("A", "B"), each=5)
 
 Main data types you will encounter:
 
----------------------------- ------------------------------- --------------------------
-Data type                    Function                        Notes
----------------------------- ------------------------------- --------------------------
-Columns separated by spaces  `read_table()`                  one or more
-                                                             spaces separate 
-                                                             each column
-
-TSV / TAB separated values   `read_tsv()`                    Delimiter is tab (`\t`).
-
-CSV / comma separated        `read_csv()`                    Comma separated values
+---------------------------- ------------------------------- ------------------------------- --------------------------
+Data type                    Function                        Package                         Notes
+---------------------------- ------------------------------- ------------------------------- --------------------------
+Columns separated by spaces  `read_table()`                  `readr`                         one or more
+                                                                                             spaces separate 
+                                                                                             each column
                                                              
-Any delimiter                `read_delim()`                  Customizable
+TSV / TAB separated values   `read_tsv()`                    `readr`                         Delimiter is tab (`\t`).
+                                                             
+CSV / comma separated        `read_csv()`                    `readr`                         Comma separated values
+                                                                                             
+Any delimiter                `read_delim()`                  `readr`                         Customizable
+                                                             
+XLS (old Excel)              `read_xls()`                    `readxl`                        Just don't use it.
+                             `read_excel()`                                                  From the
+                                                                                             `readxl`
+                                                                                             package.
+                                                             
+XLSX (new Excel)             `read_xlsx()`                   `readxl`                        From the `readxl` package.
+                             `read_excel()`                                                  You need to
+                                                                                             provide the
+                                                                                             sheet number
+                                                                                             you wish to
+                                                                                             read. 
+                                                                                             Note: returns a tibble,
+                                                                                             not a data frame! 
+---------------------------- ------------------------------- ------------------------------- --------------------------
 
-XLS (old Excel)              `read_xls()`                    Just don't use it.
-                             `read_excel()`                  From the
-                                                             `readxl`
-                                                             package.
-
-XLSX (new Excel)             `read_xlsx()`                   From the `readxl` package.
-                             `read_excel()`                  You need to
-                                                             provide the
-                                                             sheet number
-                                                             you wish to
-                                                             read. 
-                                                             Note: returns a tibble,
-                                                             not a data frame! 
----------------------------- ------------------------------- --------------------------
-
+Note: there are also "base R" functions `read.table`, `read.csv`,
+`read.tsv` (there is no function for reading XLS[X] files in base R). The
+tidyverse functions above are preferable.
 
 
 ## Excercise 2.5
