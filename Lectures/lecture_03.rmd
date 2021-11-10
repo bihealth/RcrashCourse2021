@@ -149,27 +149,30 @@ Figure out how to use gsub to do the following tasks:
 
 Main data types you will encounter:
 
----------------------------- ------------------------------- --------------------------
-Data type                    Function                        Notes
----------------------------- ------------------------------- --------------------------
-TSV / TAB separated values   `write.table()`                 Tab is `\t`.
-                                                             A very general and 
-                                                             customizable function
-                                                             Warning:
-                                                             column names 
+---------------------------- ------------------------------- ------------------------------- --------------------------
+Data type                    Function                        Package                         Notes
+---------------------------- ------------------------------- ------------------------------- --------------------------
+TSV / TAB separated values   `write.table()`                 `base R`                        Tab is `\t`.
+                                                                                             A very general and 
+                                                                                             customizable function
+                                                                                             Warning:
+                                                                                             column names 
 
-CSV / comma separated        `write.csv()`                    a wrapper around
-                                                             `write.table()`
+                             `write_tsv()`                   `readr`                         No rownames!
 
-XLS (old Excel)                                              Just don't use it. No, 
-                                                             seriously, don't.
+                                                                                             
+CSV / comma separated        `write.csv()`                   `base R`                        a wrapper around
+                                                                                             `write.table()`
+                                                                                             
+                             `write_csv()`                   `readr`                         No rownames!
 
-XLSX (new Excel)             `write_xlsx()`                  From the `writexl` 
-                                                             package.
-                                                             Warning:
-                                                             row names
-                                                             omitted!
----------------------------- ------------------------------- --------------------------
+XLS (old Excel)                                                                              Just don't use it. No, 
+                                                                                             seriously, don't.
+                                                                                             
+XLSX (new Excel)             `write_xlsx()`                  `writexl`                       Warning:
+                                                                                             row names
+                                                                                             omitted!
+---------------------------- ------------------------------- ------------------------------- --------------------------
 
 
 
