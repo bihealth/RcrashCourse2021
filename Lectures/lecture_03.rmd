@@ -15,6 +15,14 @@ output:
 knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width=5,fig.height=5,cache=TRUE,autodep=TRUE, results="hide")
 ```
 
+## Aims for today
+
+* Cleaning data
+* Regular expressions
+* Searching, sorting and selecting
+
+## Repetitorium of Day 2
+
 # Cleaning data
 ## A short note on organizing your data
 
