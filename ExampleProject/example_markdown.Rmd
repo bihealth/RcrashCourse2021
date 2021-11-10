@@ -1,64 +1,67 @@
 ---
-title: "Exercises"
+title: "The Pond Question"
+author: "Anonymous"
+date: "April 13, 2021"
 output:
-  html_document:
-    toc: yes
-    toc_float:
-      collapsed: yes
-      smooth_scroll: yes
-  word_document:
-    toc: yes
-  pdf_document:
-    toc: yes
-editor_options: 
-  chunk_output_type: console
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## The lily pond problem
+# Header 1
 
-There is a lake in a garden. Every day, the water lilies cover twice as much area as the previous day. On the first day, the water lilies cover 1/100th of the area of the lake.
+## Header 2
 
-Formula for day n:
+### The pond question
 
-$$A(n) = A_0 \cdot 2^n$$
-
-In the following, x are the days and y is the fraction of pond covered on day n. We start at day 0, when the coverage is 1/100th.
-
-```{r echo=TRUE}
-frac_init <- 1/100
-
-x <- 1:7
-
-y <- frac_init * 2^x
-plot(x, y, type="l", lty=3, bty="n", 
-     xlab="Day", ylab="Fraction of pond covered", 
-     main="Lily pond", col="red", log="y")
-y2 <- frac_init * 1.5^x
-lines(x, y2, col="blue", lty=2)
-abline(h=.5, col="grey")
-```
-
-And here, the ggplot2 version (you need nota worry about it)
-
-```{r echo=FALSE}
-library(ggplot2)
-df <- data.frame(x=x, y=y)
-ggplot(df, aes(x=x, y=y)) + geom_line() + theme_bw() + xlab("Day") + ylab("Fraction of pond covered") +
-  ggtitle("Lily pond") + geom_hline(yintercept =.5, color="grey")
-```
-
-
-# Dummy t test
-
+Now, we plan.
 
 ```{r}
-weight <- c(16, 17, 21, 23, 15)
-fac <- factor(c("male", "male", "female", "female", "male"))
-res <- t.test(weight ~ fac)
+## x is the days
+x <- 1:10
+
+## initial area
+area1 <- 1/100
+
+## y is the area of the pond
+y <- 2^(x-1) * area1
 ```
 
-The p-value from the t-test was `r format.pval(res$p.value, digits=2)`.
+Now, we plot.
+
+```{r echo=TRUE}
+plot(x, y, xlab="Days", ylab="Area covered by water lilys")
+```
+
+
+
+## Playing with Functions
+
+```{r}
+randsamp <- function(n, d="uniform") {
+
+  if(d == "uniform") {
+    ret <- runif(n)
+  } else if(d == "normal") {
+    ret <- rnorm(n)
+  } else if(d == "binomial") {
+    ret <- rbinom(n, size=1, prob=0.5)
+  } else {
+    stop("I don't know this distribution!")
+  }
+
+  return(ret)
+}
+```
+
+v <- c("ANKRD22", "ank.rep.domain 12", "ifng-1", "ANKRD-33", "  ankrd23")
+v
+gsub("^ *ank.*", "ANKRD", v)
+gsub("^ *ank.*", "ANKRD", v, ignore.case = T)
+gsub("^ *ank[a-zA-Z-. ]*", "ANKRD", v, ignore.case = T)
+gsub("^ *ank[a-zA-Z. -]*", "ANKRD", v, ignore.case = T)
+gsub("^ *ank[^0-9]*", "ANKRD", v, ignore.case = T)
+

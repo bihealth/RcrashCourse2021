@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2021-11-08" />
+  <meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,7 +25,7 @@
         usePrettify: true,
         enableSlideAreas: true,
         enableTouch: true,
-                        favIcon: 'files\logo_bihealth_en.png',
+                        favIcon: 'files/logo_bihealth_en.png',
               },
 
       // Author information
@@ -164,7 +164,7 @@ slide:not(.current) .plotly.html-widget{
       position: absolute;
       bottom: 20px;
       left: 60px;
-      background: url(files\logo_bihealth_en.png) no-repeat 0 50%;
+      background: url(files/logo_bihealth_en.png) no-repeat 0 50%;
       -webkit-background-size: 30px 30px;
       -moz-background-size: 30px 30px;
       -o-background-size: 30px 30px;
@@ -190,7 +190,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2021-11-08</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2021-11-10</p>
           </hgroup>
   </slide>
 
@@ -426,14 +426,24 @@ rep(c(&quot;A&quot;, &quot;B&quot;), each=5)
 <th align="left">Notes</th>
 </tr>
 <tr class="odd">
-<td align="left">TSV / TAB separated values</td>
+<td align="left">Columns separated by spaces</td>
 <td align="left"><code>read_table()</code></td>
-<td align="left">Tab is <code>\t</code>. A very general and customizable function</td>
+<td align="left">one or more spaces separate each column</td>
 </tr>
 <tr class="even">
+<td align="left">TSV / TAB separated values</td>
+<td align="left"><code>read_tsv()</code></td>
+<td align="left">Delimiter is tab (<code>\t</code>).</td>
+</tr>
+<tr class="odd">
 <td align="left">CSV / comma separated</td>
 <td align="left"><code>read_csv()</code></td>
-<td align="left">a wrapper around <code>read.table()</code></td>
+<td align="left">Comma separated values</td>
+</tr>
+<tr class="even">
+<td align="left">Any delimiter</td>
+<td align="left"><code>read_delim()</code></td>
+<td align="left">Customizable</td>
 </tr>
 <tr class="odd">
 <td align="left">XLS (old Excel)</td>

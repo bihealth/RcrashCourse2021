@@ -1,0 +1,60 @@
+---
+title: "Analytical solution"
+author: "January Weiner"
+date: "11/9/2021"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+Here is our equation:
+
+$y = y_0 \cdot r^{x - 1}$
+
+We can logarithmize both sides (since none of them is negative):
+
+$\log{y} = \log{y_0} + (x -1)\cdot \log{r}$
+
+A simple transformation:
+
+$\log{y} = \log{y_0} + x \cdot \log{r} - \log{r}$
+
+$x = \frac{\log{y} + \log{r} - \log{y_0}}{\log{r}}$
+
+$x = \frac{\log{\frac{y \cdot r}{y_0}}}{\log{r}}$
+
+If $r = 2$, $y_0 = 0.01$ and $y = 0.5$ then
+
+$x = \log{\frac{0.5 \cdot 0.01}{2}}$
+
+Using heuristics:
+
+
+
+```{r include=FALSE}
+days <- seq(1, 10, by=.1)
+r <- 1.9
+y0 <- 1/100
+y <- y0 * r^(days - 1)
+t0 <- y > 0.5
+t0 <- which(t0)
+t0 <- t0[1]
+t0 <- days[t0]
+```
+
+According to the heuristic approach, the area covered by water lillies will exceed 50% on day `r t0` (fraction indicates that it is in the afternoon). 
+
+Here is how it looks on a plot:
+
+```{r}
+plot(days, y, xlab="Days", ylab="Area covered (fraction)")
+abline(h=0.5)
+abline(v=t0)
+```
+
+
+
+Using our analytical formula, the result is identical: 
+`r format(log(0.5 * r / y0)/log(r), digits=2)` which shows that I have *not* error somewhere.
+

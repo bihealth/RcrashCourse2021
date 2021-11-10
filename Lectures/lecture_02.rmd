@@ -271,12 +271,15 @@ Main data types you will encounter:
 ---------------------------- ------------------------------- --------------------------
 Data type                    Function                        Notes
 ---------------------------- ------------------------------- --------------------------
-TSV / TAB separated values   `read_table()`                  Tab is `\t`.
-                                                             A very general and 
-                                                             customizable function
+Columns separated by spaces  `read_table()`                  one or more
+                                                             spaces separate 
+                                                             each column
 
-CSV / comma separated        `read_csv()`                    a wrapper around
-                                                             `read.table()`
+TSV / TAB separated values   `read_tsv()`                    Delimiter is tab (`\t`).
+
+CSV / comma separated        `read_csv()`                    Comma separated values
+                                                             
+Any delimiter                `read_delim()`                  Customizable
 
 XLS (old Excel)              `read_xls()`                    Just don't use it.
                              `read_excel()`                  From the
