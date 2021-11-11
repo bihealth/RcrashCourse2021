@@ -32,6 +32,8 @@ library(RColorBrewer)
 * Matching and merging data
 * Visualization continued
 
+![](images/data-science.png){ width=600px }
+
 # Searching, sorting and selecting
 
 ## sort and order
@@ -119,7 +121,7 @@ has two effects:
 
 ```{r, eval=TRUE}
 ## read the transcriptomic results data set
-res <- read.csv("../Datasets/transcriptomics_results.csv")
+res <- read.csv("Datasets/transcriptomics_results.csv")
 
 ## only interesting columns
 res <- res[ , c(3, 5, 8:9) ]
