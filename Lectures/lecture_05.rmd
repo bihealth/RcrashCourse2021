@@ -16,6 +16,260 @@ knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width
 knitr::opts_knit$set(root.dir = "../")
 ```
 
+# Creating the LABRES data set
+
+## Labres data set
+
+The following slides are for your reference only. You can trace how I
+created the `labwide` data frame using meta-data from
+`expression_data_vaccination_example.xlsx` and `labresults_full.csv` data
+files. The created result can be found in the file
+`labresults_wide_full.csv`.
+
+The data set contains laboratory measurements for several parameters (such
+as white blood cell count or C-reactive protein) for vaccinees vaccinated
+with either Fluad (adjuvant-containing influenza vaccine), Agrippal (same,
+but without adjuvant) or placebo, for several days before and after
+vaccination.
+
+## Reading and column selection
+
+```{r,eval=TRUE}
+library(readxl)
+library(tidyverse)
+targets <- read_excel("Datasets/expression_data_vaccination_example.xlsx", sheet = 1)
+targets <- targets[ , c("USUBJID", "Timepoint", "ARM", "SEX", "AGE") ]
+lab <- read.csv("Datasets/labresults_full.csv")
+lab <- lab[ , 
+  c("USUBJID", "LBTEST", "LBTESTCD", "LBORRES", "Timepoint") ]
+
+## remove the "SCREEN" time point
+lab <- lab[ lab$Timepoint != "SCREEN", ]
+
+## not what we want!
+merged <- merge(targets, lab, by="USUBJID")
+table(merged$Timepoint.x, merged$Timepoint.y)
+```
+
+## Reading and column selection
+
+We need to choose: do we want to keep all measurements and just fill out
+meta-information from `targets`, or do we want only to keep the time points
+present in the expression data set?
+
+```{r,eval=TRUE}
+## to keep all time points
+targets2 <- targets[ , c("USUBJID", "ARM", "SEX", "AGE") ]
+
+## remove duplicated lines
+targets2 <- targets2[ !duplicated(targets2$USUBJID), ] 
+
+## merge
+merged_full <- merge(targets2, lab, by="USUBJID")
+
+## this one drops all timepoints not present in "targets"
+merged <- merge(targets, lab, by=c("USUBJID", "Timepoint"))
+```
+
+## Converting to wide format
+
+```{r}
+## this does not work as expected, because "LBTESTCD" 
+## and "LBTEST" contain the same information – we cannot 
+## store both in the column names
+
+labwide <- pivot_wider(merged, names_from="LBTESTCD", values_from="LBORRES")
+```
+
+```{r eval=TRUE}
+## this works
+labwide <- pivot_wider(merged[ , colnames(merged) != "LBTEST"], names_from="LBTESTCD", values_from="LBORRES")
+```
+
+## Cleaning up
+
+```{r,eval=TRUE}
+sapply(labwide, class) # all measurements are character!
+startpos <- which(colnames(labwide) == "ACA")
+labwide2 <- data.frame(labwide[,1:(startpos-1)], data.matrix(labwide[,startpos:ncol(labwide)]))
+which(is.na(labwide2), arr.ind=T)[,2]
+
+## impute low measurements
+labwide[,14] <- gsub("<", "", labwide[,14])
+labwide[,16] <- gsub("<", "", labwide[,16])
+
+## these column is all NA
+labwide <- labwide[,-17]
+labwide <- data.frame(labwide[,1:5], data.matrix(labwide[,6:35]))
+```
+
+
+# Simple statistics with R
+
+## Descriptive statistics
+
+`tapply(x, groups, func)` applies a function `func` to some data `x`
+grouped by `groups`.
+
+```{r}
+labwide <- read_csv("Datasets/labresults_wide_full.csv")[, -1 ]
+mean(labwide$NEUT)
+sd(labwide$NEUT)
+
+tapply(labwide$NEUT, labwide$ARM, mean)
+tapply(labwide$NEUT, labwide$Timepoint, mean)
+tapply(labwide$NEUT, 
+  paste(labwide$ARM, labwide$Timepoint, sep="."), mean)
+```
+
+## Simple t.test
+
+We define logical vectors to help us select the desired data.
+
+```{r,eval=TRUE}
+fluad    <- labwide$ARM == "FLUAD"
+agrippal <- labwide$ARM == "AGRIPPAL"
+
+d0 <- labwide$Timepoint == "D0"
+d1 <- labwide$Timepoint == "D1"
+```
+
+## Simple t.test
+
+Paired or not paired?
+
+```{r,eval=TRUE}
+tst <- "NEUT" # lymphocyte count
+x <- as.data.frame(labwide)[,tst]
+t.test(x[d0 & fluad], x[d1 & fluad])
+t.test(x[d0 & fluad], x[d1 & fluad], paired=TRUE)
+```
+
+## Broom: cleaning up data
+
+`tidy()` cleans up messy results of various standard statistical tests and
+formats them into a nice, clean, TIDY data frame (or, rather, a tibble).
+
+```{r,eval=TRUE,results="markdown"}
+library(broom)
+tidy(t.test(x[d0 & fluad], x[d1 & fluad], paired=TRUE))
+```
+
+## Caveat: paired data
+
+We must make sure that all the data points are paired!
+
+## Excercise 5.1
+
+ * Run t-test for CRP (C-reactive protein), LYM (lymphocytes)
+ * `wilcox.test()` is the U test / Mann Whitney test / Wilcoxon test. Try it. Are the p-values different?
+ * use `tidy()` to clean up data
+ * save the results for CRP and LYM in the data frames (with help of
+   `tidy()`).
+ * How can you combine two data frames (or tibbles, or matrices) row-wise?
+   Look up the `rbind()` or the `bind_rows()` function. Create a single data frame with results
+   for the CRP and LYM.
+ * Adjust the p-values for multiple testing; create a q-value column using
+   the function `p.adjust()`. What is the default method for correction for
+   multiple testing?
+
+
+## Simple basic plots (demonstration)
+
+We have two main factors: ARM (the group) and Timepoint (before or 1 day
+after vaccination). Therefore, we should plot accordingly.
+
+```{r}
+labwide$armcd <- gsub("(.).*", "\\1", labwide$ARM)
+labwide$group <- paste(labwide$armcd, labwide$Timepoint, sep=".")
+
+boxplot(NEUT ~ group, data=labwide)
+```
+
+## Simple basic plots (demonstration)
+
+```{r,eval=TRUE,echo=FALSE}
+labwide$armcd <- gsub("(.).*", "\\1", labwide$ARM)
+labwide$group <- paste(labwide$armcd, labwide$Timepoint, sep=".")
+
+boxplot(NEUT ~ group, data=labwide)
+```
+
+## Simple basic plots (demonstration)
+
+```{r,eval=TRUE}
+library(beeswarm)
+beeswarm(NEUT ~ group, data=labwide)
+```
+
+## Excercise 5.2
+
+ * Create box plots for selected variables
+
+## ggplot2 vs basic R plots
+
+
+Basic R plots:
+
+ * super simple for a beginner
+ * messy if you try to make it nice
+ * you can do anything
+ * some tools only produce basic R
+ * SUPER fast
+
+ggplot2:
+
+ * produces nice and complex graphics with less effort
+ * requires a data frame
+ * more uniform
+ * very different syntax
+ * some things really hard to achieve
+
+
+
+## Plot for pairwise data
+
+```{r,eval=TRUE,fig.width=10,fig.height=4.5}
+library(ggplot2)
+ggplot(labwide, aes(x=Timepoint, y=NEUT, group=USUBJID, color=ARM)) + geom_line() + geom_point()
+```
+
+## Making it nicer
+
+```{r,eval=TRUE,fig.width=10,fig.height=4.5}
+ggplot(labwide, aes(x=Timepoint, y=NEUT, group=USUBJID)) + geom_line() + geom_point() + 
+  facet_grid(. ~ ARM)
+```
+
+## Making it nicer
+
+```{r, eval=FALSE}
+ggplot(labwide, aes(x=Timepoint, y=NEUT, group=USUBJID)) + 
+  geom_line(color="grey") + 
+  geom_point() + 
+  facet_grid(. ~ ARM) +
+  xlab("Day") +
+  ylab("Neutrophiles") +
+  theme_bw() +
+  ggtitle("Change in neutrophile count in different study arms")
+```
+
+
+## Making it nicer
+
+```{r, eval=TRUE,echo=FALSE,fig.width=10,fig.height=5}
+ggplot(labwide, aes(x=Timepoint, y=NEUT, group=USUBJID)) + 
+  geom_line(color="grey") + 
+  geom_point() + 
+  facet_grid(. ~ ARM) +
+  xlab("Day") +
+  ylab("Neutrophiles") +
+  theme_bw() +
+  ggtitle("Change in neutrophile count in different study arms")
+```
+
+
+
 ```{r eval=TRUE, echo=FALSE, message=FALSE}
 require(tidyverse)
 require(readxl)
@@ -418,6 +672,9 @@ text(km$centers[,1], km$centers[,2], 1:n.cl, cex=2, col=pal)
 legend("topright", levels(group), pch=c(15,17,19), cex=1.5, bty="n")
 ```
 
+# Summary
+## Let's bring all concepts together
 
+![](images/summaryCourse.png){ width=900px }
 
 
