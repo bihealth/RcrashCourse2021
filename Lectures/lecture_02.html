@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2021-11-10" />
+  <meta name="date" content="2022-03-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,7 +25,7 @@
         usePrettify: true,
         enableSlideAreas: true,
         enableTouch: true,
-                        favIcon: 'files/logo_bihealth_en.png',
+                        favIcon: 'files\logo_bihealth_en.png',
               },
 
       // Author information
@@ -164,7 +164,7 @@ slide:not(.current) .plotly.html-widget{
       position: absolute;
       bottom: 20px;
       left: 60px;
-      background: url(files/logo_bihealth_en.png) no-repeat 0 50%;
+      background: url(files\logo_bihealth_en.png) no-repeat 0 50%;
       -webkit-background-size: 30px 30px;
       -moz-background-size: 30px 30px;
       -o-background-size: 30px 30px;
@@ -190,11 +190,11 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2021-11-10</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2022-03-01</p>
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Aims for today</h2></hgroup><article  id="aims-for-today" class="smaller ">
+<slide class=""><hgroup><h2>Aims for today</h2></hgroup><article  class="smaller " id="aims-for-today">
 
 <ul>
 <li>Complex data structures (matrices, lists and data frames)</li>
@@ -202,9 +202,9 @@ slide:not(.current) .plotly.html-widget{
 <li>Reading data from files</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Repetitorium of Day 1</h2></hgroup><article  id="repetitorium-of-day-1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Repetitorium of Day 1</h2></hgroup><article  class="smaller " id="repetitorium-of-day-1">
 
-</article></slide><slide class=""><hgroup><h2>Exercise 2.1</h2></hgroup><article  id="exercise-2.1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Exercise 2.1</h2></hgroup><article  class="smaller " id="exercise-2.1">
 
 <p>There is a lake in a garden. Every day, the water lilies cover twice as much area as the previous day. On the first day, the water lilies cover 1/100th of the area of the lake.</p>
 
@@ -214,10 +214,10 @@ slide:not(.current) .plotly.html-widget{
 <li>plot x vs y (use the simple <code>plot()</code> function)</li>
 <li>When will the half of the area be covered by water lilies? Use <code>abline(h=.5)</code> (what does it do?) to show a graphical solution</li>
 <li>What is the fraction on day 3? Hint: what does <code>y[3]</code> do?</li>
-<li>Speaking of which, what dows <code>y[4:5]</code> do? (just try it!)</li>
+<li>Speaking of which, what does <code>y[4:5]</code> do? (just try it!)</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Exercise 2.2</h2></hgroup><article  id="exercise-2.2" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Exercise 2.2</h2></hgroup><article  class="smaller " id="exercise-2.2">
 
 <ul>
 <li>Make the plot yourself.</li>
@@ -227,14 +227,14 @@ slide:not(.current) .plotly.html-widget{
 <li>Use <code>lines(x, y)</code> function to put a second line on the plot</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Creating your own functions for fun and profit</h2></hgroup><article  id="creating-your-own-functions-for-fun-and-profit" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Creating your own functions for fun and profit</h2></hgroup><article  class="smaller " id="creating-your-own-functions-for-fun-and-profit">
 
 <ul>
 <li>If you have to write something more than twice, you should turn it into a function!</li>
 <li>R is a <em>functional</em> language</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Creating a function</h2></hgroup><article  id="creating-a-function" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Creating a function</h2></hgroup><article  class="smaller " id="creating-a-function">
 
 <pre class = 'prettyprint lang-r'>#&#39; Function name
 #&#39; Function description
@@ -245,7 +245,7 @@ some_name &lt;- function(param1, param2=2) {
 
 }</pre>
 
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  class="smaller " id="example">
 
 <pre class = 'prettyprint lang-r'>#&#39; Function for pond calculation
 pond_surface_covered &lt;- function(init_pond_surface, day=0) {
@@ -256,7 +256,7 @@ pond_surface_covered &lt;- function(init_pond_surface, day=0) {
   return(ret)
 }</pre>
 
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example-1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  class="smaller " id="example-1">
 
 <pre class = 'prettyprint lang-r'>#&#39; Generate a random sample from a given distribution
 #&#39; Usage: randsamp(n) where n is the size of the sample
@@ -274,13 +274,13 @@ randsamp &lt;- function(n, d=&quot;uniform&quot;) {
   return(ret)
 }</pre>
 
-</article></slide><slide class=""><hgroup><h2>Exercise 2.3</h2></hgroup><article  id="exercise-2.3" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Exercise 2.3</h2></hgroup><article  class="smaller " id="exercise-2.3">
 
 <p>Take the function above and add a new option: the binomial distribution. Which function can give you that? Search for a suitable function.</p>
 
 <p>Note: binomial distribution is essentially what you get when you throw a coin a number of times and add the results (1 for heads, 0 for tails). This function requires two more parameters: number of &ldquo;coin tosses&rdquo; and probability of &ldquo;heads&rdquo;. You need to adapt the code accordingly: choose something meaningful, e.g. size=1 and prob=0.5 to simulate a single fair coin toss.</p>
 
-</article></slide><slide class=""><hgroup><h2>Data matrices</h2></hgroup><article  id="data-matrices" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Data matrices</h2></hgroup><article  class="smaller " id="data-matrices">
 
 <p>Much like vectors, matrices can only hold one data type (e.g. only numeric or only character or only logical etc.).</p>
 
@@ -291,7 +291,7 @@ dim(m)
 ncol(m)
 nrow(m)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Accessing columns, rows and element</h2></hgroup><article  id="accessing-columns-rows-and-element" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Accessing columns, rows and element</h2></hgroup><article  class="smaller " id="accessing-columns-rows-and-element">
 
 <p><code>matrix[row, column]</code></p>
 
@@ -301,7 +301,7 @@ nrow(m)</pre>
 m[, 2] # vector which is the first column
 m[3, 1] # first element of the third row</pre>
 
-</article></slide><slide class=""><hgroup><h2>Row and column names</h2></hgroup><article  id="row-and-column-names" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Row and column names</h2></hgroup><article  class="smaller " id="row-and-column-names">
 
 <p>We can name rows and columns of a matrix and use the names to access the rows and columns:</p>
 
@@ -311,7 +311,7 @@ rownames(m) &lt;- LETTERS[1:nrow(m)]
 m[&quot;A&quot;, &quot;b&quot;]
 m[&quot;B&quot;, ] # etc.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Remember</h2></hgroup><article  id="remember" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Remember</h2></hgroup><article  class="smaller " id="remember">
 
 <ul>
 <li>If you select a single column or a single row, you will get a vector</li>
@@ -319,9 +319,9 @@ m[&quot;B&quot;, ] # etc.</pre>
 <li>If you select more rows or columns than are present, you will get a &ldquo;subscript out of bonds&rdquo; error</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Demonstration</h2></hgroup><article  id="demonstration" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Demonstration</h2></hgroup><article  class="smaller " id="demonstration">
 
-</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  id="lists" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  class="smaller " id="lists">
 
 <ul>
 <li>Lists hold all types of information</li>
@@ -329,7 +329,7 @@ m[&quot;B&quot;, ] # etc.</pre>
 <li>Lists have elements. An element of a list can have <em>any</em> type, including another list.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  id="lists-1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  class="smaller " id="lists-1">
 
 <p>Caveats:</p>
 
@@ -338,7 +338,7 @@ m[&quot;B&quot;, ] # etc.</pre>
 <li>Lists may have names (set with <code>names()</code>), but don’t have to</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Data frames</h2></hgroup><article  id="data-frames" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Data frames</h2></hgroup><article  class="smaller " id="data-frames">
 
 <p>Data frames are a bit like matrices, but every column can store different type of data. In this, they are more like lists (which they in fact are).</p>
 
@@ -351,7 +351,7 @@ class(d)
 class(d[,1])
 class(d[,3])</pre>
 
-</article></slide><slide class=""><hgroup><h2>Accessing elements in data frames</h2></hgroup><article  id="accessing-elements-in-data-frames" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Accessing elements in data frames</h2></hgroup><article  class="smaller " id="accessing-elements-in-data-frames">
 
 <p>You can access the data frame elements much like the elements of a matrix.</p>
 
@@ -363,7 +363,7 @@ d$lastn[1]</pre>
 
 <p>However, note that when you select a row, you will get a data frame, not a vector. This is because each of the column can be of different type, and vectors can hold only one type of data.</p>
 
-</article></slide><slide class=""><hgroup><h2>Matrices vs data frames</h2></hgroup><article  id="matrices-vs-data-frames" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Matrices vs data frames</h2></hgroup><article  class="smaller " id="matrices-vs-data-frames">
 
 <p>Caveats:</p>
 
@@ -375,7 +375,7 @@ d$lastn[1]</pre>
 
 <p>Gory details: matrices are a basic data type. Data frames are a list.</p>
 
-</article></slide><slide class=""><hgroup><h2>Data frames vs tibble</h2></hgroup><article  id="data-frames-vs-tibble" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Data frames vs tibble</h2></hgroup><article  class="smaller " id="data-frames-vs-tibble">
 
 <p>Caveats:</p>
 
@@ -388,7 +388,7 @@ d$lastn[1]</pre>
 <li>In tibble, you always get a smaller tibble.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Exercise 2.4</h2></hgroup><article  id="exercise-2.4" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Exercise 2.4</h2></hgroup><article  class="smaller " id="exercise-2.4">
 
 <ul>
 <li>Create a 5x3 matrix with random numbers. Use <code>matrix</code> and <code>rnorm</code>.</li>
@@ -398,7 +398,7 @@ d$lastn[1]</pre>
 <li>Add a column with five numbers from 0 to 1. Use the <code>seq</code> function for that.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Using rep</h2></hgroup><article  id="using-rep" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Using rep</h2></hgroup><article  class="smaller " id="using-rep">
 
 <p><code>rep()</code> is used to replicate vectors.</p>
 
@@ -410,9 +410,9 @@ rep(c(&quot;A&quot;, &quot;B&quot;), each=5)
 # result
 # [1] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot;</pre>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Reading and writing data</h2></hgroup><article  id="reading-and-writing-data" class="smaller ">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Reading and writing data</h2></hgroup><article  class="smaller " id="reading-and-writing-data">
 
-</article></slide><slide class=""><hgroup><h2>Reading data</h2></hgroup><article  id="reading-data" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Reading data</h2></hgroup><article  class="smaller " id="reading-data">
 
 <p>Main data types you will encounter:</p>
 
@@ -467,19 +467,25 @@ rep(c(&quot;A&quot;, &quot;B&quot;), each=5)
 
 <p>Note: there are also &ldquo;base R&rdquo; functions <code>read.table</code>, <code>read.csv</code>, <code>read.tsv</code> (there is no function for reading XLS[X] files in base R). The tidyverse functions above are preferable.</p>
 
-</article></slide><slide class=""><hgroup><h2>Excercise 2.5</h2></hgroup><article  id="excercise-2.5" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Excercise 2.5</h2></hgroup><article  class="smaller " id="excercise-2.5">
 
-<p>Read, inspect and correct (if reasonable) the following files:</p>
+<p>Read, inspect the following files:</p>
 
 <ul>
-<li><code>cars.xlsx</code></li>
+<li><code>TB_ORD_Gambia_Sutherland_biochemicals.csv</code></li>
 <li><code>iris.csv</code></li>
-<li><code>expression_data_vaccination_example.xlsx</code> (large!)</li>
+<li><code>meta_data_botched.xlsx</code> (large!)</li>
 </ul>
+
+<ol>
+<li>Which functions would you use?</li>
+<li>What kind of issues can you detect?</li>
+<li>Suggestions of solving the issues?</li>
+</ol>
 
 <p>The function <code>readxl_example(&quot;deaths.xls&quot;)</code> returns a file name. Read this file. How can you omit the lines at the top and at the bottom of the file? (hint: <code>?read_excel</code>). How can you force the date columns to be interpreted as dates and not numbers?</p>
 
-</article></slide><slide class=""><hgroup><h2>Tibbles / readxl</h2></hgroup><article  id="tibbles-readxl" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Tibbles / readxl</h2></hgroup><article  class="smaller " id="tibbles-readxl">
 
 <p>tibbles belong to the tidyverse. They are nice to work with and very useful, but we can stick to data frames for now. Therefore, do</p>
 

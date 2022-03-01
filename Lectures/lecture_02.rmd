@@ -37,7 +37,7 @@ much area as the previous day. On the first day, the water lilies cover
  * When will the half of the area be covered by water lilies? Use `abline(h=.5)`
    (what does it do?) to show a graphical solution
  * What is the fraction on day 3? Hint: what does `y[3]` do?
- * Speaking of which, what dows `y[4:5]` do? (just try it!)
+ * Speaking of which, what does `y[4:5]` do? (just try it!)
 
 ## Exercise 2.2
 
@@ -303,14 +303,17 @@ tidyverse functions above are preferable.
 
 ## Excercise 2.5
 
-Read, inspect and correct (if reasonable) the following files:
+Read, inspect the following files:
 
- * `cars.xlsx`
+ * `TB_ORD_Gambia_Sutherland_biochemicals.csv`
  * `iris.csv`
- * `expression_data_vaccination_example.xlsx` (large!)
+ * `meta_data_botched.xlsx` 
 
-The function `readxl_example("deaths.xls")` returns a file name. Read this
-file. How can you omit the lines at the top and at the bottom of the file?
+ 1. Which functions would you use? 
+ 1. What kind of issues can you detect?
+ 1. Suggestions of solving the issues?
+ 
+The function `readxl_example("deaths.xls")` returns a file name. Read this file. How can you omit the lines at the top and at the bottom of the file?
 (hint: `?read_excel`). How can you force the date columns to be interpreted
 as dates and not numbers?
 
