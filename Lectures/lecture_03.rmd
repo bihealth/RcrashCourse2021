@@ -136,6 +136,35 @@ gsub("[a-z]*", "", foo, ignore.case=TRUE)
 gsub("_.*", "", foo)
 ```
 
+## Typical example
+
+Often, due to typos, when you read a data file, a numeric column becomes a
+character string, because for example someone entered "x15" instead of "15"
+or mixed German and English decimal separators (e.g. "1,5" and "1.5" in the
+same column).
+
+This does not work alone:
+
+
+```{r eval=TRUE, results="markdown"}
+foo <- c("x15", "15.5", "15,5")
+as.numeric(foo)
+```
+
+We need to substitute the strings first:
+
+
+```{r eval=TRUE, results="markdown"}
+foo <- gsub("[a-zA-Z]*", "", foo) # remove letters
+foo <- gsub(",", ".", foo)        # convert decimal separator
+as.numeric(foo)
+```
+
+
+
+
+
+
 ## Regexps cont.
 
 You can wrap gsub around another gsub
@@ -160,6 +189,68 @@ Figure out how to use gsub to do the following tasks:
  * Using `gsub` and the `toupper` function, clean up the gene names such
    that they conform to the HGNC (all capital
    letters, no spaces, no dashes): `c("ankrd22", "ifng", "Nf-kb", " Cxcl 5", "CCL 6.", "ANK.r.d. 12")`
+
+
+## Diagnosing problems
+
+ * tidyverse reading functions provide a summary on the reading process,
+   e.g.:
+
+
+```{r eval=TRUE,results="markdown"}
+library(tidyverse)
+myiris <- read_csv("../Datasets/iris.csv")
+```
+
+ * Use `summary`, `class` and `typeof` functions to find potential
+   problems. This is what we expect:
+
+
+```{r eval=TRUE,results="markdown"}
+typeof(myiris$Petal.Width)
+class(myiris$Petal.Width)
+summary(myiris$Petal.Width)
+```
+
+## Diagnosing problems
+
+ * Use `summary`, `class` and `typeof` functions to find potential
+   problems. This is **not** what we expect:
+
+
+```{r eval=TRUE,results="markdown"}
+ typeof(myiris$`Sepal Length`)
+  class(myiris$`Sepal Length`)
+summary(myiris$`Sepal Length`)
+```
+
+(we use the back ticks because the column name contains a space)
+
+
+
+
+## Diagnosing problems
+
+ * The colorDF package provides a function called `summary_colorDF` which
+   can be used to diagnose problems with different flavors of data frames:
+
+
+
+
+
+```{r eval=TRUE,results="markdown",R.options=list(width=100)}
+library(colorDF)
+summary_colorDF(myiris)
+```
+
+
+
+
+
+
+## Exercise 3.1, second part
+
+ * Read the data file `iris.csv` using the `read_csv` function. Spot and correct errors.
  * Read the data file `meta_data_botched.xlsx`. Spot and correct errors.
 
 ## Writing data
@@ -257,8 +348,12 @@ pivot_wider(long, id_cols="subject", names_from="condition", values_from="measur
 
 Convert the following files to long format:
 
- * `iris.csv`
- * `mtcars_wide.csv`
+ * `iris.tsv`
  * `labresults_wide.csv`
  * `cars.xlsx` (tricky!)
+
+Clean up and convert to long format (what seems to be the problem? How do
+we deal with that?):
+
+ * `mtcars_wide.csv`
 
