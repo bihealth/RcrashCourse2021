@@ -18,6 +18,7 @@ To view HTML files, use the following links:
 
  * [Lecture 1](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_01.html) 
  * [Lecture 2](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_02.html)
+ * [Lecture 3](https://bihealth.github.io/RcrashCourse2021/Lectures/lecture_03.html)
  
 
 ## Scripts from the Course 
