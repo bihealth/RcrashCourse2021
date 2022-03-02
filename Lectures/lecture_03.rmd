@@ -248,7 +248,7 @@ summary_colorDF(myiris)
 
 
 
-## Exercise 3.1, second part
+## Exercise 3.2
 
  * Read the data file `iris.csv` using the `read_csv` function. Spot and correct errors.
  * Read the data file `meta_data_botched.xlsx`. Spot and correct errors.
@@ -344,7 +344,7 @@ pivot_wider(long, names_from="condition", values_from="measurement")
 pivot_wider(long, id_cols="subject", names_from="condition", values_from="measurement")
 ```
 
-## Exercise 3.2
+## Exercise 3.3
 
 Convert the following files to long format:
 
