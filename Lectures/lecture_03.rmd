@@ -48,9 +48,58 @@ knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width
   * brace yourself for bad times
   * get used to nasty remarks
 
-## Cleaning data in the scope of data analysis
+## Diagnosing problems
 
-![](images/data-science.png){ width=600px }
+ * tidyverse reading functions provide a summary on the reading process,
+   e.g.:
+
+
+```{r eval=TRUE,results="markdown"}
+library(tidyverse)
+myiris <- read_csv("../Datasets/iris.csv")
+```
+
+ * Use `summary`, `class` and `typeof` functions to find potential
+   problems. This is what we expect:
+
+
+```{r eval=TRUE,results="markdown"}
+typeof(myiris$Petal.Width)
+class(myiris$Petal.Width)
+summary(myiris$Petal.Width)
+```
+
+## Diagnosing problems
+
+ * Use `summary`, `class` and `typeof` functions to find potential
+   problems. This is **not** what we expect:
+
+
+```{r eval=TRUE,results="markdown"}
+ typeof(myiris$`Sepal Length`)
+  class(myiris$`Sepal Length`)
+summary(myiris$`Sepal Length`)
+```
+
+(we use the back ticks because the column name contains a space)
+
+
+
+
+## Diagnosing problems
+
+ * The colorDF package provides a function called `summary_colorDF` which
+   can be used to diagnose problems with different flavors of data frames:
+
+
+
+
+
+```{r eval=TRUE,results="markdown",R.options=list(width=100)}
+library(colorDF)
+summary_colorDF(myiris)
+```
+
 
 ## Substitutions (search & replace)
 
@@ -162,9 +211,6 @@ as.numeric(foo)
 
 
 
-
-
-
 ## Regexps cont.
 
 You can wrap gsub around another gsub
@@ -191,61 +237,7 @@ Figure out how to use gsub to do the following tasks:
    letters, no spaces, no dashes): `c("ankrd22", "ifng", "Nf-kb", " Cxcl 5", "CCL 6.", "ANK.r.d. 12")`
 
 
-## Diagnosing problems
-
- * tidyverse reading functions provide a summary on the reading process,
-   e.g.:
-
-
-```{r eval=TRUE,results="markdown"}
-library(tidyverse)
-myiris <- read_csv("../Datasets/iris.csv")
-```
-
- * Use `summary`, `class` and `typeof` functions to find potential
-   problems. This is what we expect:
-
-
-```{r eval=TRUE,results="markdown"}
-typeof(myiris$Petal.Width)
-class(myiris$Petal.Width)
-summary(myiris$Petal.Width)
-```
-
-## Diagnosing problems
-
- * Use `summary`, `class` and `typeof` functions to find potential
-   problems. This is **not** what we expect:
-
-
-```{r eval=TRUE,results="markdown"}
- typeof(myiris$`Sepal Length`)
-  class(myiris$`Sepal Length`)
-summary(myiris$`Sepal Length`)
-```
-
-(we use the back ticks because the column name contains a space)
-
-
-
-
-## Diagnosing problems
-
- * The colorDF package provides a function called `summary_colorDF` which
-   can be used to diagnose problems with different flavors of data frames:
-
-
-
-
-
-```{r eval=TRUE,results="markdown",R.options=list(width=100)}
-library(colorDF)
-summary_colorDF(myiris)
-```
-
-
-
-
+## Using regular expressions to clean tables 
 
 
 ## Exercise 3.2
