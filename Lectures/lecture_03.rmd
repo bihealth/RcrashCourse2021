@@ -33,6 +33,7 @@ knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width
 
  If you use Excel, follow these rules:
 
+   * NEVER modify original files
    * Versionize your files
    * Check data for consistency (e.g. with R!)
    * Use preselected values 
