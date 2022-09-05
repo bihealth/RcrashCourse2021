@@ -85,6 +85,12 @@ iris <- read_tsv("iris.tsv")
 
 ![Error 2](images/error_02.png)
 
+ * Don't panic!
+
+ * Do not ignore error messages. Very often, they tell you exactly what the
+   problem is.
+
+
 
 ## The rdesktop workplace
 
