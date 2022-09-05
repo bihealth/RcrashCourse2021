@@ -123,22 +123,30 @@ iris <- read_tsv("iris.tsv")
 
 ## R language basics (demo)
 
- * Assignment and creating variables 
 
-       a <- 2
+```{r echo=TRUE}
+## Anything starting with a '#' is a comment
+## Assignment and creating variables 
 
- * vectors and multiple assignment 
+a <- 2
+name <- "Manuela"
 
-       a <- c(1, 7, 9)
+## vectors and multiple assignment 
 
- * operators 
+a <- c(1, 7, 9)
 
-       3 + 5 
-       a * 7
+## operators 
 
- * functions 
+a <- 3 + 5 
+b <- a * 7
 
-       sum(c(1, 2, 3))
+## functions 
+
+sum(c(1, 2, 3))
+i <- length(a)
+```
+
+Try it out!
 
 ## Exercises 1.1
 
