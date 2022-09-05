@@ -123,10 +123,22 @@ iris <- read_tsv("iris.tsv")
 
 ## R language basics (demo)
 
- * Assignment and variables (`a <- 2`)
- * vectors and multiple assignment (`a <- c(1, 7, 9)`)
- * operators (`3 + 5` or `a + 7`)
- * functions (`sum(c(1, 2, 3))`)
+ * Assignment and creating variables 
+
+       a <- 2
+
+ * vectors and multiple assignment 
+
+       a <- c(1, 7, 9)
+
+ * operators 
+
+       3 + 5 
+       a * 7
+
+ * functions 
+
+       sum(c(1, 2, 3))
 
 ## Exercises 1.1
 
