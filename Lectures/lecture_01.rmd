@@ -70,6 +70,18 @@ To view the lectures, click on the link or download the HTML file and open it in
 
 # How to start
 
+## Creating a new project
+
+ * In Rstudio, go to File -> New Project 
+ * When the dialog window appears, select New Directory -> New Project
+
+A project is not a file – but a directory which contains all relevant files
+(scripts, documentation, Excel files with the source data, exported
+documents...). You can put anything in this directory.
+
+It is a very good idea to save all data and meta-data related to your
+project in this directory.
+
 ## Example R session
 
 First example
