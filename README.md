@@ -27,3 +27,33 @@ The scripts with analysis for each day are provided in the folder Scripts/ . The
 
  * [Books](https://bihealth.github.io/RcrashCourse2021/Lectures/books.html) 
 
+**Instructions for installing R and Rstudio:**
+
+ * [Instructions for all systems](https://techvidvan.com/tutorials/install-r/)
+ * [Installing R and Rstudio for Windows](https://medium.com/@GalarnykMichael/install-r-and-rstudio-on-windows-5f503f708027)
+ * [Yet another guide](https://rstudio-education.github.io/hopr/starting.html)
+
+
+**Advanced:** Cloning the repository using Rstudio.
+
+All course materials are on the website [https://github.com/bihealth/RcrashCourse2021/](https://github.com/bihealth/RcrashCourse2021/). 
+This webpage is a *repository*. Instead of downloading the materials one by
+one, you can make a perfect copy locally (which is called "cloning") and
+update it (semi-)automatically when anything changes.
+
+If you want to save yourself some work (and learn something new at the same
+time), you can directly clone the repository of the course using Rstudio. 
+
+First, install git (follow the instructions
+[here](https://support.rstudio.com/hc/en-us/articles/200532077?version=2022.07.1%2B554&mode=desktop)).
+
+Once git is installed, open Rstudio, select File -> New Project, then choose "Version
+control", "Git", and enter "https://github.com/bihealth/RcrashCourse2021/"
+as the repository URL. Select a directory where you would like to clone the
+repository, and click the "Create repository" button. Rstudio will download
+all course materials.
+
+In the top right corner, a new pane appears with the name "git". When you
+select it, clicking the blue "down" arrow ("pull") will update your local
+directory with any changes that have been made to the course repo in the
+meanwhile.
