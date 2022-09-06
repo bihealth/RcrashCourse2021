@@ -18,10 +18,23 @@ knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width
 ## Aims for today
 
 * Complex data structures (matrices, lists and data frames)
-* Coming back to writing your own functions
+* Writing your own functions
 * Reading data from files
 
 ## Repetitorium of Day 1
+
+## Creating a function
+
+```{r eval=FALSE,echo=TRUE}
+#' Function name
+#' Function description
+some_name <- function(param1, param2=2) {
+
+## code comment
+# <your code goes in here>
+
+}
+```
 
 ## Exercise 2.1
 
@@ -42,13 +55,12 @@ much area as the previous day. On the first day, the water lilies cover
 ## Exercise 2.2
 
  * Make the plot yourself.
- * In Rmarkdown.
  * use 'col' parameter of `plot` and a color name (e.g. "red") to change
    the color of the line (`plot(..., col="red")`)
  * what if each day the lilies cover a fraction of area that is 1.5 the
    fraction of area on the previous day?
  * Use `lines(x, y)` function to put a second line on the plot
-
+ * For more experienced users: Create a Rmarkdown.
 
 ## Creating your own functions for fun and profit
 
@@ -56,18 +68,6 @@ much area as the previous day. On the first day, the water lilies cover
    a function!
  * R is a *functional* language
 
-## Creating a function
-
-```{r eval=FALSE,echo=TRUE}
-#' Function name
-#' Function description
-some_name <- function(param1, param2=2) {
-
-## code comment
-# <your code goes in here>
-
-}
-```
 
 ## Example
 
@@ -117,7 +117,6 @@ This function requires two more parameters: number of "coin tosses"
 and probability of "heads". You need to adapt the code accordingly: choose
 something meaningful, e.g. size=1 and prob=0.5 to simulate a single fair
 coin toss.
-
 
 
 ## Data matrices
@@ -189,9 +188,9 @@ Data frames are a bit like matrices, but every column can store different
 type of data. In this, they are more like lists (which they in fact are).
 
 ```{r}
-names <- c("January", "Bill")
-lastn <- c("Weiner", "Gates")
-age   <- c(1001, 64)
+names <- c("January", "Manuela", "Bill")
+lastn <- c("Weiner", "Benary", "Gates")
+age   <- c(1001, NA, 65)
 
 d <- data.frame(names=names, last_names=lastn, age=age)
 class(d)
