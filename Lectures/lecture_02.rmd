@@ -118,6 +118,9 @@ and probability of "heads". You need to adapt the code accordingly: choose
 something meaningful, e.g. size=1 and prob=0.5 to simulate a single fair
 coin toss.
 
+**Additional exercise:** Compare the distributions using plot(density(x)),
+where x is the output of your function.
+
 
 ## Data matrices
 
