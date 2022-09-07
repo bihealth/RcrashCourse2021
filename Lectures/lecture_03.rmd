@@ -51,6 +51,19 @@ knitr::opts_chunk$set(echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE,fig.width
 
 ## Diagnosing problems
 
+Potential problems:
+
+ * incorrect import (e.g. numeric values as strings)
+ * typos (e.g. "x15" instead of "15")
+ * incongruent labels (e.g. mixing "M", "male" and "männlich")
+ * mixing upper and lower case
+ * mixing different types of decimal separator
+ * special numeric values (e.g. "> 10", "< 5")
+ * comments in the same column ("10 (unreliable)")
+ * dates (also, Excel converts certain strings to dates)
+
+## Diagnosing problems
+
  * tidyverse reading functions provide a summary on the reading process,
    e.g.:
 
@@ -70,11 +83,15 @@ class(myiris$Petal.Width)
 summary(myiris$Petal.Width)
 ```
 
+Longer explanation: `typeof` returns the so called "storage type", that is
+the very basic type of a value (string, logical, integer, list etc.).
+`class` can be different (more specific). For example, if `mtx` is a matrix
+of numbers, `typeof(mtx)` is `double`, and `class(mtx)` is `matrix`.
+
 ## Diagnosing problems
 
  * Use `summary`, `class` and `typeof` functions to find potential
    problems. This is **not** what we expect:
-
 
 ```{r eval=TRUE,results="markdown"}
  typeof(myiris$`Sepal Length`)
@@ -101,6 +118,11 @@ library(colorDF)
 summary_colorDF(myiris)
 ```
 
+## Mending problems
+
+ * replace incorrect values (by search and replace)
+ * enforcing a particular data type (e.g., converting strings to numbers)
+
 
 ## Substitutions (search & replace)
 
@@ -111,7 +133,11 @@ summary_colorDF(myiris)
 ```{r}
 ## Clearly broken!
 group <- c("Control", " control", "control ", "Control   ")
+
+## replace upper-case "Control"
 group <- gsub("Control", "control", group)
+
+## replace all spaces
 group <- gsub(" ", "", group)
 ```
 
@@ -186,6 +212,17 @@ gsub("[a-z]*", "", foo, ignore.case=TRUE)
 gsub("_.*", "", foo)
 ```
 
+## Regular expression cont.
+
+Note: the function `gsub` takes three arguments:
+
+ * a regular expression
+ * a replacement
+ * a character vector
+
+It then finds all occurences of the regular expression in each element of
+the character vector and replaces them by the replacement.
+
 ## Typical example
 
 Often, due to typos, when you read a data file, a numeric column becomes a
@@ -193,7 +230,8 @@ character string, because for example someone entered "x15" instead of "15"
 or mixed German and English decimal separators (e.g. "1,5" and "1.5" in the
 same column).
 
-This does not work alone:
+We can use the `as.numeric` function to convert the strings to numeric
+values, but this does not work as intended:
 
 
 ```{r eval=TRUE, results="markdown"}
@@ -202,7 +240,6 @@ as.numeric(foo)
 ```
 
 We need to substitute the strings first:
-
 
 ```{r eval=TRUE, results="markdown"}
 foo <- gsub("[a-zA-Z]*", "", foo) # remove letters
@@ -229,10 +266,10 @@ vec <- gsub("S*chicken", "Chicken", vec)
 
 ## Exercise 3.1
 
-Figure out how to use gsub to do the following tasks:
 
- * What matches all of the "ANKRD" genes in the following: `c("ANKRD22", "ank.rep.domain 12", "ifng-1", "ANKRD-33", "  ankrd23")`
- * Make the following uniform: `c("male", "Male ", "M", "F", "female", " Female")`
+ * What regular expression matches all of the ankyrin repeat genes (but not other genes) in the following vector: `c("ANKRD22", "ank.rep.domain 12", "ifng-1", "ANKRD-33", "  ankrd23", "MAPK)`
+ * Use gsub in the above vector to replace all occurences of "ANKRD"   
+ * Use gsub to make the following uniform: `c("male", "Male ", "M", "F", "female", " Female")`
  * Using `gsub` and the `toupper` function, clean up the gene names such
    that they conform to the HGNC (all capital
    letters, no spaces, no dashes): `c("ankrd22", "ifng", "Nf-kb", " Cxcl 5", "CCL 6.", "ANK.r.d. 12")`
@@ -276,6 +313,15 @@ XLSX (new Excel)             `write_xlsx()`                  `writexl`          
 ---------------------------- ------------------------------- ------------------------------- --------------------------
 
 
+## Row names – gory details.
+
+The default base R functions `read.*` assign (unless otherwise specified)
+row names to a data frame.
+
+The tidyverse `read_*` family of functions return not a data frame, but its
+variant, a *tibble*. These tibbles behave very much like data frame;
+however, **tidyverse discourages the use of row names** and sometimes even
+removes existing row names on data frames.
 
 ## Wide and Long format (demonstration)
 
