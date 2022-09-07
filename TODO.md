@@ -4,5 +4,10 @@
 
 * Day 2: add an overview of the different parentheses / brackets () [] {}
   ...
+  add a slide on absolute vs relative directory paths
+
+  spend more time on logical vectors, e.g. is.na()
+
+  add selecting vectors / rows by logical vectors
 
 * Day 3: introduce grep first, then gsub
