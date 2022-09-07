@@ -198,7 +198,7 @@ slide:not(.current) .plotly.html-widget{
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Aims for today</h2></hgroup><article  id="aims-for-today" class="smaller ">
+<slide class=""><hgroup><h2>Aims for today</h2></hgroup><article  class="smaller " id="aims-for-today">
 
 <ul>
 <li>Cleaning data</li>
@@ -206,17 +206,17 @@ slide:not(.current) .plotly.html-widget{
 <li>Searching, sorting and selecting</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Repetitorium of Day 2</h2></hgroup><article  id="repetitorium-of-day-2" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Repetitorium of Day 2</h2></hgroup><article  class="smaller " id="repetitorium-of-day-2">
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Cleaning data</h2></hgroup><article  id="cleaning-data" class="smaller ">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Cleaning data</h2></hgroup><article  class="smaller " id="cleaning-data">
 
-</article></slide><slide class=""><hgroup><h2>A short note on organizing your data</h2></hgroup><article  id="a-short-note-on-organizing-your-data" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>A short note on organizing your data</h2></hgroup><article  class="smaller " id="a-short-note-on-organizing-your-data">
 
 <ul>
 <li>If possible, use a specialized tool and not Excel (a database, specialized clinical data management system, REDCap etc.)</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>And if you use Excel…</h2></hgroup><article  id="and-if-you-use-excel" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>And if you use Excel…</h2></hgroup><article  class="smaller " id="and-if-you-use-excel">
 
 <p>If you use Excel, follow these rules:</p>
 
@@ -233,14 +233,14 @@ slide:not(.current) .plotly.html-widget{
 <li>understand the difference between wide and long format</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>And if you use Excel and don’t follow these rules</h2></hgroup><article  id="and-if-you-use-excel-and-dont-follow-these-rules" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>And if you use Excel and don’t follow these rules</h2></hgroup><article  class="smaller " id="and-if-you-use-excel-and-dont-follow-these-rules">
 
 <ul>
 <li>brace yourself for bad times</li>
 <li>get used to nasty remarks</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  id="diagnosing-problems" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  class="smaller " id="diagnosing-problems">
 
 <p>Potential problems:</p>
 
@@ -255,7 +255,7 @@ slide:not(.current) .plotly.html-widget{
 <li>dates (also, Excel converts certain strings to dates)</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  id="diagnosing-problems-1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  class="smaller " id="diagnosing-problems-1">
 
 <ul>
 <li>tidyverse reading functions provide a summary on the reading process, e.g.:</li>
@@ -283,7 +283,7 @@ myiris &lt;- read_csv(&quot;../Datasets/iris.csv&quot;)</pre>
 
 <p>Longer explanation: <code>typeof</code> returns the so called &ldquo;storage type&rdquo;, that is the very basic type of a value (string, logical, integer, list etc.). <code>class</code> can be different (more specific). For example, if <code>mtx</code> is a matrix of numbers, <code>typeof(mtx)</code> is <code>double</code>, and <code>class(mtx)</code> is <code>matrix</code>.</p>
 
-</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  id="diagnosing-problems-2" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  class="smaller " id="diagnosing-problems-2">
 
 <ul>
 <li>Use <code>summary</code>, <code>class</code> and <code>typeof</code> functions to find potential problems. This is <strong>not</strong> what we expect:</li>
@@ -304,7 +304,7 @@ myiris &lt;- read_csv(&quot;../Datasets/iris.csv&quot;)</pre>
 
 <p>(we use the back ticks because the column name contains a space)</p>
 
-</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  id="diagnosing-problems-3" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Diagnosing problems</h2></hgroup><article  class="smaller " id="diagnosing-problems-3">
 
 <ul>
 <li>The colorDF package provides a function called <code>summary_colorDF</code> which can be used to diagnose problems with different flavors of data frames:</li>
@@ -321,14 +321,15 @@ summary_colorDF(myiris)</pre>
 ## 4│Petal.Width │&lt;dbl&gt;│    0│    22│0.1 [0.3 &lt;1.3&gt; 1.8] 2.5                                       
 ## 5│Species     │&lt;chr&gt;│    0│     6│virginica: 46, setosa: 45, versicolor: 42, Versicolor: 8, Set…</pre>
 
-</article></slide><slide class=""><hgroup><h2>Mending problems</h2></hgroup><article  id="mending-problems" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Mending problems</h2></hgroup><article  class="smaller " id="mending-problems">
 
 <ul>
+<li>find the incorrect values</li>
 <li>replace incorrect values (by search and replace)</li>
 <li>enforcing a particular data type (e.g., converting strings to numbers)</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Substitutions (search &amp; replace)</h2></hgroup><article  id="substitutions-search-replace" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Substitutions (search &amp; replace)</h2></hgroup><article  class="smaller " id="substitutions-search-replace">
 
 <ul>
 <li><code>gsub(string1, string2, text)</code> substitute all occurences of <code>string1</code> in by <code>string2</code> in <code>text</code></li>
@@ -336,10 +337,14 @@ summary_colorDF(myiris)</pre>
 </ul>
 
 <pre class = 'prettyprint lang-r'>## Clearly broken!
-group &lt;- c(&quot;Control&quot;, &quot; control&quot;, &quot;control &quot;, &quot;Control   &quot;)
+group &lt;- c(&quot;ontrol&quot;, &quot;Montrol&quot;, &quot;Kontrol&quot;, &quot;Kkkkkontrl&quot;, &quot;hello Connnnnnntrol&quot;, &quot;oh what a nice day it is, controooool&quot;, &quot;control &quot;, &quot;Control, incoming&quot;)
 
 ## replace upper-case &quot;Control&quot;
-group &lt;- gsub(&quot;Control&quot;, &quot;control&quot;, group)
+group2 &lt;- gsub(&quot;[ckCK]+on*tro*l$&quot;, &quot;control&quot;, group)
+
+grepl(&quot;[ckCK]+on*tro*l$&quot;, group)
+
+group != group2
 
 ## replace all spaces
 group &lt;- gsub(&quot; &quot;, &quot;&quot;, group)</pre>
@@ -357,7 +362,7 @@ tolower(group)
 ## make everything upper case
 toupper(group)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Regular expressions</h2></hgroup><article  id="regular-expressions" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Regular expressions</h2></hgroup><article  class="smaller " id="regular-expressions">
 
 <p>Is there not a way to simplify things?</p>
 
@@ -375,7 +380,14 @@ gsub(&quot;^ &quot;, &quot;&quot;, group)
 # any number of occurences
 gsub(&quot; *&quot;, &quot;&quot;, group)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  id="regular-expression-cont." class="smaller ">
+<pre class = 'prettyprint lang-r'>group &lt;- c(&quot;Control&quot;, &quot; control&quot;, &quot;control &quot;, &quot;Control   &quot;)
+group1 &lt;- trimws(group)
+group2 &lt;- tolower(group1)
+
+## sin(log(tan(pi)))
+group &lt;- tolower(trimws(group))</pre>
+
+</article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  class="smaller " id="regular-expression-cont.">
 
 <p>In regular expressions, some characters or strings have special meanings</p>
 
@@ -386,7 +398,7 @@ gsub(&quot; *&quot;, &quot;&quot;, group)</pre>
 <li>A string like <code>[abc]</code> will match only a, b and c, but not d. You can use ranges, e.g. <code>[0-9]</code> or <code>[a-z]</code></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  id="regular-expression-cont.-1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  class="smaller " id="regular-expression-cont.-1">
 
 <pre class = 'prettyprint lang-r'>foo &lt;- c(&quot;a1_123&quot;, &quot;a1_231&quot;, &quot;a2_17&quot;, &quot;B2_23&quot;, &quot;c2_889&quot;)
 
@@ -403,7 +415,7 @@ gsub(&quot;[a-z]*&quot;, &quot;&quot;, foo, ignore.case=TRUE)
 # dot means &quot;any character&quot;
 gsub(&quot;_.*&quot;, &quot;&quot;, foo)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  id="regular-expression-cont.-2" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Regular expression cont.</h2></hgroup><article  class="smaller " id="regular-expression-cont.-2">
 
 <p>Note: the function <code>gsub</code> takes three arguments:</p>
 
@@ -415,13 +427,13 @@ gsub(&quot;_.*&quot;, &quot;&quot;, foo)</pre>
 
 <p>It then finds all occurences of the regular expression in each element of the character vector and replaces them by the replacement.</p>
 
-</article></slide><slide class=""><hgroup><h2>Typical example</h2></hgroup><article  id="typical-example" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Typical example</h2></hgroup><article  class="smaller " id="typical-example">
 
 <p>Often, due to typos, when you read a data file, a numeric column becomes a character string, because for example someone entered &ldquo;x15&rdquo; instead of &ldquo;15&rdquo; or mixed German and English decimal separators (e.g. &ldquo;1,5&rdquo; and &ldquo;1.5&rdquo; in the same column).</p>
 
 <p>We can use the <code>as.numeric</code> function to convert the strings to numeric values, but this does not work as intended:</p>
 
-<pre class = 'prettyprint lang-r'>foo &lt;- c(&quot;x15&quot;, &quot;15.5&quot;, &quot;15,5&quot;)
+<pre class = 'prettyprint lang-r'>foo &lt;- c(&quot;xxxxx15&quot;, &quot;15.5&quot;, &quot;15,5&quot;)
 as.numeric(foo)</pre>
 
 <pre >## [1]   NA 15.5   NA</pre>
@@ -434,7 +446,7 @@ as.numeric(foo)</pre>
 
 <pre >## [1] 15.0 15.5 15.5</pre>
 
-</article></slide><slide class=""><hgroup><h2>Regexps cont.</h2></hgroup><article  id="regexps-cont." class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Regexps cont.</h2></hgroup><article  class="smaller " id="regexps-cont.">
 
 <p>You can wrap gsub around another gsub</p>
 
@@ -447,25 +459,25 @@ vec &lt;- gsub(&quot;^ *&quot;, &quot;&quot;, vec)
 vec &lt;- gsub(&quot;^m.*&quot;, &quot;Mouse&quot;, vec)
 vec &lt;- gsub(&quot;S*chicken&quot;, &quot;Chicken&quot;, vec)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Exercise 3.1</h2></hgroup><article  id="exercise-3.1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Exercise 3.1</h2></hgroup><article  class="smaller " id="exercise-3.1">
 
 <ul>
-<li>What regular expression matches all of the ankyrin repeat genes (but not other genes) in the following vector: <code>c(&quot;ANKRD22&quot;, &quot;ank.rep.domain 12&quot;, &quot;ifng-1&quot;, &quot;ANKRD-33&quot;, &quot;  ankrd23&quot;, &quot;MAPK)</code></li>
+<li>What regular expression matches all of the ankyrin repeat genes (but not other genes) in the following vector: <code>c(&quot;ANKRD22&quot;, &quot;ANKEN&quot;, &quot;ank.rep.domain 12&quot;, &quot;ifng-1&quot;, &quot;ANKRD-33&quot;, &quot;  ankrd23&quot;, &quot;MAPK)</code></li>
 <li>Use gsub in the above vector to replace all occurences of &ldquo;ANKRD&rdquo;<br/></li>
 <li>Use gsub to make the following uniform: <code>c(&quot;male&quot;, &quot;Male &quot;, &quot;M&quot;, &quot;F&quot;, &quot;female&quot;, &quot; Female&quot;)</code></li>
 <li>Using <code>gsub</code> and the <code>toupper</code> function, clean up the gene names such that they conform to the HGNC (all capital letters, no spaces, no dashes): <code>c(&quot;ankrd22&quot;, &quot;ifng&quot;, &quot;Nf-kb&quot;, &quot; Cxcl 5&quot;, &quot;CCL 6.&quot;, &quot;ANK.r.d. 12&quot;)</code></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Using regular expressions to clean tables</h2></hgroup><article  id="using-regular-expressions-to-clean-tables" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Using regular expressions to clean tables</h2></hgroup><article  class="smaller " id="using-regular-expressions-to-clean-tables">
 
-</article></slide><slide class=""><hgroup><h2>Exercise 3.2</h2></hgroup><article  id="exercise-3.2" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Exercise 3.2</h2></hgroup><article  class="smaller " id="exercise-3.2">
 
 <ul>
 <li>Read the data file <code>iris.csv</code> using the <code>read_csv</code> function. Spot and correct errors.</li>
 <li>Read the data file <code>meta_data_botched.xlsx</code>. Spot and correct errors.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Writing data</h2></hgroup><article  id="writing-data" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Writing data</h2></hgroup><article  class="smaller " id="writing-data">
 
 <p>Main data types you will encounter:</p>
 
@@ -518,15 +530,15 @@ vec &lt;- gsub(&quot;S*chicken&quot;, &quot;Chicken&quot;, vec)</pre>
 </tr>
 </table>
 
-</article></slide><slide class=""><hgroup><h2>Row names – gory details.</h2></hgroup><article  id="row-names-gory-details." class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Row names – gory details.</h2></hgroup><article  class="smaller " id="row-names-gory-details.">
 
 <p>The default base R functions <code>read.*</code> assign (unless otherwise specified) row names to a data frame.</p>
 
 <p>The tidyverse <code>read_*</code> family of functions return not a data frame, but its variant, a <em>tibble</em>. These tibbles behave very much like data frame; however, <strong>tidyverse discourages the use of row names</strong> and sometimes even removes existing row names on data frames.</p>
 
-</article></slide><slide class=""><hgroup><h2>Wide and Long format (demonstration)</h2></hgroup><article  id="wide-and-long-format-demonstration" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Wide and Long format (demonstration)</h2></hgroup><article  class="smaller " id="wide-and-long-format-demonstration">
 
-</article></slide><slide class=""><hgroup><h2>Wide and Long format</h2></hgroup><article  id="wide-and-long-format" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Wide and Long format</h2></hgroup><article  class="smaller " id="wide-and-long-format">
 
 <p>Long advantages:</p>
 
@@ -542,7 +554,7 @@ vec &lt;- gsub(&quot;S*chicken&quot;, &quot;Chicken&quot;, vec)</pre>
 <li>can be easier to manage (each column one measurement type)</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Converting from wide to long:</h2></hgroup><article  id="converting-from-wide-to-long" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Converting from wide to long:</h2></hgroup><article  class="smaller " id="converting-from-wide-to-long">
 
 <pre class = 'prettyprint lang-r'>wide &lt;- read.table(header=TRUE, text=&#39;
  subject sex control cond1 cond2
@@ -554,7 +566,7 @@ vec &lt;- gsub(&quot;S*chicken&quot;, &quot;Chicken&quot;, vec)</pre>
 pivot_longer(wide, cols=c(&quot;control&quot;, &quot;cond1&quot;, &quot;cond2&quot;), 
   names_to=&quot;condition&quot;, values_to=&quot;measurement&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Converting from long to wide</h2></hgroup><article  id="converting-from-long-to-wide" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Converting from long to wide</h2></hgroup><article  class="smaller " id="converting-from-long-to-wide">
 
 <pre class = 'prettyprint lang-r'>long &lt;- read.table(header=TRUE, text=&#39;
  subject  sampleID sex condition measurement
@@ -569,7 +581,7 @@ pivot_longer(wide, cols=c(&quot;control&quot;, &quot;cond1&quot;, &quot;cond2&qu
        3  ID000009 F     cond2        13.8
 &#39;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Converting from long to wide</h2></hgroup><article  id="converting-from-long-to-wide-1" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Converting from long to wide</h2></hgroup><article  class="smaller " id="converting-from-long-to-wide-1">
 
 <pre class = 'prettyprint lang-r'>## not what we wanted!!! Why?
 pivot_wider(long, names_from=&quot;condition&quot;, values_from=&quot;measurement&quot;)
@@ -577,7 +589,7 @@ pivot_wider(long, names_from=&quot;condition&quot;, values_from=&quot;measuremen
 ## Instead: 
 pivot_wider(long, id_cols=&quot;subject&quot;, names_from=&quot;condition&quot;, values_from=&quot;measurement&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Exercise 3.3</h2></hgroup><article  id="exercise-3.3" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Exercise 3.3</h2></hgroup><article  class="smaller " id="exercise-3.3">
 
 <p>Convert the following files to long format:</p>
 
