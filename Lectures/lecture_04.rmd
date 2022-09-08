@@ -20,7 +20,6 @@ knitr::opts_knit$set(root.dir = "../")
 library(readxl)
 library(beeswarm)
 library(tidyr)
-library(vioplot)
 library(sm)
 library(zoo)
 library(RColorBrewer)
@@ -100,8 +99,19 @@ Sorting with tidyverse is easier.
 
 ```{r}
 arrange(df, val)
-arrange(df, -val)
-arrange(df, -abs(val))
+
+## reverse sort
+arrange(df, desc(val)) 
+
+## largest absolute values first
+arrange(df, desc(abs(val))) 
+```
+
+## Sorting data frames with tidyverse
+
+
+```{r}
+arrange(df, val)
 ```
 
 Note the lack of quotes around `val`! This is a feature in tidyverse which

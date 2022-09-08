@@ -11,3 +11,16 @@
   add selecting vectors / rows by logical vectors
 
 * Day 3: introduce grep first, then gsub
+
+ * limit the regular expressions to a minimum
+ * make this part shorter
+
+ * for the long / wide format: use the iris data set and show plots
+   immediately
+
+* Day 4 
+
+ * start with graphics (iris data set?)
+
+ * use only tidyverse for ordering and filtering? (filter & arrange)
+ 
