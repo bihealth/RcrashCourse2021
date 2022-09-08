@@ -30,7 +30,7 @@ library(RColorBrewer)
 
 * Searching, sorting and selecting
 * Matching and merging data
-* Visualization continued
+* Visualization
 
 ![](images/data-science.png){ width=600px }
 
