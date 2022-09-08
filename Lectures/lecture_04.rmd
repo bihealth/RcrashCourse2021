@@ -148,7 +148,10 @@ desc.sum <- summary(factor(res$Description))
 head(sort(desc.sum, decreasing=TRUE))
 ```
 
-
+*Data from: Weiner, January, et al. "Characterization of potential
+biomarkers of reactogenicity of licensed antiviral vaccines: randomized
+controlled clinical trials conducted by the BIOVACSAFE consortium."
+Scientific reports 9.1 (2019): 1-14.*
 
 ## Example cont.
 
