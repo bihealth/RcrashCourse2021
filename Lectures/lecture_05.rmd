@@ -235,10 +235,19 @@ The files `expression_data_vaccination_example.xlsx` and
     that there are multiple time points per subject and multiple
     measurements per subject and time point.
 
+# Simple statistics (demo)
 
-# Guided examples
-## Summarizing electrolyte data
-## Flow cytometry data
+ * t.test
+ * ANOVA
+ * linear modeling
+
+# A few words about graphics
+
+ * base R vs ggplot2
+ * demo
+
+
+# Where to find R packages
 
 * standing on the shoulders of giants
 * [CRAN repository](https://cran.r-project.org/)
@@ -250,6 +259,19 @@ The files `expression_data_vaccination_example.xlsx` and
   * *flowStats*, *flowViz*, ...
   * Guides / Books for workflows, eg
   * [Cytof data](http://bioconductor.org/packages/release/workflows/html/cytofWorkflow.html)
+
+# Where to go from here and where to find help
+
+ * [StackOverflow](https://stackoverflow.com)
+ * Walk-in clinic
+ * Online R books
+   * [Hands-On programming with R](https://rstudio-education.github.io/hopr/)
+   * [R for data science (tidyverse)](https://r4ds.had.co.nz/)
+   * [R graphics cookbook](https://r-graphics.org/)
+   * [R markdown: the definitive guide](https://bookdown.org/yihui/rmarkdown/)
+ * Other books:
+   * [The R Book](https://www.wiley.com/en-us/The+R+Book%2C+2nd+Edition-p-9780470973929)
+
 
 # Summary
 ## Let's bring all concepts together
