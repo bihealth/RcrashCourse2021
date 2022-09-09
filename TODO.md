@@ -6,7 +6,7 @@
   ...
   add a slide on absolute vs relative directory paths
 
-  spend more time on logical vectors, e.g. is.na()
+  spend more time on logical vectors, e.g. is.na(), which(), sum(vec)
 
   add selecting vectors / rows by logical vectors
 
